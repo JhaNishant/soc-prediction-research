@@ -11,7 +11,7 @@ RUN conda install --yes --file conda-requirements.txt
 COPY requirements.txt .
 
 # Install the pip-required modules using pip
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
 # Copy your project files into the container
 COPY . .
