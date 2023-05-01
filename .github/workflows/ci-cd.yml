@@ -19,6 +19,10 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Set up DVC
+      run: |
+        dvc pull
+
     - name: Run DVC Repro
       run: |
         dvc repro
