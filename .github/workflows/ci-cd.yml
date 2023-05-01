@@ -1,0 +1,24 @@
+name: sanity-check
+
+on:
+  push:
+    branches:
+      - main
+      - experiment
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: autobotraos/miniconda3-dvc:latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Run DVC Repro
+      run: |
+        dvc repro
