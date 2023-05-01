@@ -12,4 +12,5 @@ stages:
       - data/preprocessed/cleaned_data.csv.gz
       - src/analysing/correlation_analysis.py
     outs:
-      - results/correlation_analysis/soc_percent_correlations.csv
+      - results/correlation_analysis/soc_percent_correlations.csv:
+          cache: false
