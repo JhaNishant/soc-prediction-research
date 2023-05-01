@@ -1,0 +1,13 @@
+# Things for analysis
+
+With 'soc_percent' as your target variable, you can perform various analyses to understand the relationship between 'soc_percent' and other features in your dataset. Here are some possible analyses:
+
+Correlation analysis: You can calculate the correlation coefficient between 'soc_percent' and other features to understand the strength and direction of the linear relationship between them. A high positive correlation indicates that as the value of one feature increases, the value of 'soc_percent' also increases, while a high negative correlation indicates that as the value of one feature increases, the value of 'soc_percent' decreases.
+
+Regression analysis: You can perform regression analysis to build a model that predicts 'soc_percent' using other features in the dataset. You can use various regression techniques like linear regression, polynomial regression, or any other regression method that suits your data.
+
+Feature importance analysis: You can analyze the importance of each feature in predicting 'soc_percent'. You can use techniques like feature importance ranking or decision tree-based methods like random forest or gradient boosting.
+
+Clustering analysis: You can perform clustering analysis to group similar samples based on their feature values. You can then compare the 'soc_percent' values for each cluster to understand the distribution of 'soc_percent' values within each cluster.
+
+Dimensionality reduction: You can use techniques like Principal Component Analysis (PCA) or t-SNE to reduce the dimensionality of the dataset and visualize the relationship between 'soc_percent' and other features in a lower-dimensional space. This can help you identify any patterns or clusters in the data.

@@ -1,0 +1,15 @@
+stages:
+  data_cleaning:
+    cmd: time python src/preprocessing/data_cleaning.py lucas.csv.gz data/preprocessed/cleaned_data.csv.gz
+    deps:
+      - lucas.csv.gz
+      - src/preprocessing/data_cleaning.py
+    outs:
+      - data/preprocessed/cleaned_data.csv.gz
+  correlation_analysis:
+    cmd: time python src/analysing/correlation_analysis.py data/preprocessed/cleaned_data.csv.gz results/correlation_analysis/soc_percent_correlations.csv
+    deps:
+      - data/preprocessed/cleaned_data.csv.gz
+      - src/analysing/correlation_analysis.py
+    outs:
+      - results/correlation_analysis/soc_percent_correlations.csv
