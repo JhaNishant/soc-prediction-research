@@ -3,7 +3,7 @@ FROM continuumio/miniconda3
 
 # Install system packages and Git LFS
 RUN apt-get update && \
-    apt-get install -y git-lfs && \
+    apt-get install -y git-lfs time && \
     git lfs install
 
 # Copy the conda-requirements.txt file (with your conda-required modules) to the working directory
