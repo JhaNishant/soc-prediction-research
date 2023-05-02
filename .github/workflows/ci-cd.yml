@@ -19,6 +19,10 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3.5.2
 
+    - name: Set up DVC remote
+      run: |
+        dvc remote add --default myremote git-lfs::https://github.com/JhaNishant/soc-prediction-research.git
+
     - name: Set up DVC
       run: |
         dvc pull
