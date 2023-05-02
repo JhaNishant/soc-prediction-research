@@ -2,4 +2,4 @@
     remote = myremote
     autostage = true
 [remote "myremote"]
-    url = git-lfs::https://github.com/JhaNishant/soc-prediction-research.git
+    url = https://github.com/JhaNishant/soc-prediction-research.git

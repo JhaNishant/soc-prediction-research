@@ -18,5 +18,8 @@ COPY requirements.txt .
 # Install the pip-required modules using pip
 RUN pip install -r requirements.txt
 
+# Copy the .pre-commit-config.yaml file
+COPY .pre-commit-config.yaml .
+
 # Copy your project files into the container
 COPY . .

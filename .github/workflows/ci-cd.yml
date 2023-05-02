@@ -17,7 +17,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3.5.2
+      uses: actions/checkout@v2
 
     - name: Set up DVC remote
       run: |
@@ -27,6 +27,11 @@ jobs:
       run: |
         dvc pull
 
+    # Run pre-commit on all files
+    - name: Run pre-commit
+      run: pre-commit run --all-files
+
+    # Run DVC Repro
     - name: Run DVC Repro
       run: |
         dvc repro
