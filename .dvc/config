@@ -5,3 +5,4 @@
     url = gdrive://1l1gkCaHd7eRsiIfK600ZadTqYv6z13gT
     gdrive_acknowledge_abuse = true
     gdrive_use_service_account = true
+    gdrive_service_account_json_file_path = ../service_account.json

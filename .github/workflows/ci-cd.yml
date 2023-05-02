@@ -24,7 +24,7 @@ jobs:
     - name: Set up Google Service Account for DVC
       run: |
         echo "$GDRIVE_SERVICE_ACCOUNT_JSON" > service_account.json
-        dvc remote modify myremote gdrive_service_account_json_file_path "service_account.json"
+        dvc remote modify myremote gdrive_service_account_json_file_path service_account.json
       env:
         GDRIVE_SERVICE_ACCOUNT_JSON: ${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
 
