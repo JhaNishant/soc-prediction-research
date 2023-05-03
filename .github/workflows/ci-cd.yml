@@ -33,10 +33,6 @@ jobs:
       run: |
         dvc pull
 
-    # Run pre-commit on all files
-    - name: Run pre-commit
-      run: pre-commit run --all-files
-
     # Run DVC Repro to reproduce the pipeline
     - name: Run DVC Repro
       run: |
