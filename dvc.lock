@@ -1,9 +1,9 @@
 schema: '2.0'
 stages:
   data_cleaning:
-    cmd: time python src/preprocessing/data_cleaning.py lucas.csv.gz data/preprocessed/cleaned_data.csv.gz
+    cmd: time python src/preprocessing/data_cleaning.py data/raw/lucas.csv.gz data/preprocessed/cleaned_data.csv.gz
     deps:
-    - path: lucas.csv.gz
+    - path: data/raw/lucas.csv.gz
       md5: 3ea8e5d4f415ddba6a294bee61e55db6
       size: 28112307
     - path: src/preprocessing/data_cleaning.py
@@ -11,19 +11,26 @@ stages:
       size: 853
     outs:
     - path: data/preprocessed/cleaned_data.csv.gz
-      md5: f13ee337af9d72d24a5dff095d19c6c8
+      md5: e6b91bd3d9382687fbb84172b7d2de54
       size: 27383059
   correlation_analysis:
-    cmd: time python src/analysing/correlation_analysis.py data/preprocessed/cleaned_data.csv.gz
-      results/correlation_analysis/soc_percent_correlations.csv
+    cmd: "time python src/analysing/correlation_analysis.py data/preprocessed/cleaned_data.csv.gz\
+      \ results/correlation_analysis/soc_percent_correlations.csv results/correlation_analysis/correlation_bar_graph.png\
+      \ results/correlation_analysis/scatterplot_matrix.png\n"
     deps:
     - path: data/preprocessed/cleaned_data.csv.gz
-      md5: f13ee337af9d72d24a5dff095d19c6c8
+      md5: e6b91bd3d9382687fbb84172b7d2de54
       size: 27383059
     - path: src/analysing/correlation_analysis.py
-      md5: efc28895f3a7b993df6b0260170310fb
-      size: 974
+      md5: 2268d955a7d02c63b5dfba0dcd9671e1
+      size: 3446
     outs:
+    - path: results/correlation_analysis/correlation_bar_graph.png
+      md5: 1e4b666bcf0f93899bd51349ae521b15
+      size: 45191
+    - path: results/correlation_analysis/scatterplot_matrix.png
+      md5: 66fb801f37034917c75076b6f6c5be8f
+      size: 1985953
     - path: results/correlation_analysis/soc_percent_correlations.csv
-      md5: 02c6fb864c433b2adb00ed3145cea620
-      size: 12241
+      md5: c13ecf37b0d0ad5758e705df5e62443e
+      size: 12263
