@@ -23,4 +23,10 @@ stages:
           cache: false
       - results/correlation_analysis/scatterplot_matrix.png:
           cache: false
-
+  data_imputation:
+    cmd: time python src/preprocessing/data_imputation.py data/preprocessed/cleaned_data.csv.gz data/imputed/imputed_data.csv.gz
+    deps:
+      - data/preprocessed/cleaned_data.csv.gz
+      - src/preprocessing/data_imputation.py
+    outs:
+      - data/imputed/imputed_data.csv.gz
