@@ -22,8 +22,8 @@ stages:
       md5: e6b91bd3d9382687fbb84172b7d2de54
       size: 27383059
     - path: src/analysing/correlation_analysis.py
-      md5: 2268d955a7d02c63b5dfba0dcd9671e1
-      size: 3446
+      md5: e4034a6f4d7a74986c1d386dfccd8bfa
+      size: 3442
     outs:
     - path: results/correlation_analysis/correlation_bar_graph.png
       md5: 1e4b666bcf0f93899bd51349ae521b15
@@ -34,3 +34,17 @@ stages:
     - path: results/correlation_analysis/soc_percent_correlations.csv
       md5: c13ecf37b0d0ad5758e705df5e62443e
       size: 12263
+  data_imputation:
+    cmd: time python src/preprocessing/data_imputation.py data/preprocessed/cleaned_data.csv.gz
+      data/imputed/imputed_data.csv.gz
+    deps:
+    - path: data/preprocessed/cleaned_data.csv.gz
+      md5: e6b91bd3d9382687fbb84172b7d2de54
+      size: 27383059
+    - path: src/preprocessing/data_imputation.py
+      md5: 4a31f2dffa58167ea698efadbd7b48eb
+      size: 1509
+    outs:
+    - path: data/imputed/imputed_data.csv.gz
+      md5: 5aa8cbaf4306a3af7b2023045445952c
+      size: 27554564
