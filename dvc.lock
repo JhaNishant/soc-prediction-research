@@ -11,7 +11,7 @@ stages:
       size: 853
     outs:
     - path: data/preprocessed/cleaned_data.csv.gz
-      md5: 4694f15596077a315553d45028c14d4f
+      md5: c5baa59c043eb4ae692328ccce0e0171
       size: 27383059
   correlation_analysis:
     cmd: "time python src/analysing/correlation_analysis.py data/preprocessed/cleaned_data.csv.gz\
@@ -19,7 +19,7 @@ stages:
       \ results/correlation_analysis/scatterplot_matrix.png\n"
     deps:
     - path: data/preprocessed/cleaned_data.csv.gz
-      md5: 4694f15596077a315553d45028c14d4f
+      md5: c5baa59c043eb4ae692328ccce0e0171
       size: 27383059
     - path: src/analysing/correlation_analysis.py
       md5: e4034a6f4d7a74986c1d386dfccd8bfa
@@ -39,12 +39,36 @@ stages:
       data/imputed/imputed_data.csv.gz
     deps:
     - path: data/preprocessed/cleaned_data.csv.gz
-      md5: 4694f15596077a315553d45028c14d4f
+      md5: c5baa59c043eb4ae692328ccce0e0171
       size: 27383059
     - path: src/preprocessing/data_imputation.py
       md5: 7e88bfb6d5594e18f51e3771e2fdd934
       size: 1836
     outs:
     - path: data/imputed/imputed_data.csv.gz
-      md5: 29e23bc1a7e5152c219ccb6b1debcdd5
+      md5: 4005d57c42e11deeb88f700f160b3990
       size: 27554564
+  regression_analysis:
+    cmd: "time python src/analysing/regression_analysis.py data/imputed/imputed_data.csv.gz\
+      \ results/regression_analysis/predictions.csv results/regression_analysis/regression_coefficients.csv\
+      \ results/regression_analysis/predicted_vs_actual_plot.png results/regression_analysis/regression_plot.png\n"
+    deps:
+    - path: data/imputed/imputed_data.csv.gz
+      md5: 4005d57c42e11deeb88f700f160b3990
+      size: 27554564
+    - path: src/analysing/regression_analysis.py
+      md5: 1d816030a7d93b297653cab26c087367
+      size: 4042
+    outs:
+    - path: results/regression_analysis/predicted_vs_actual_plot.png
+      md5: 092a49a518da58783da8f0ca41481d9f
+      size: 105695
+    - path: results/regression_analysis/predictions.csv
+      md5: fcade9e077b753a25652b02d753ef144
+      size: 275450
+    - path: results/regression_analysis/regression_coefficients.csv
+      md5: c59708a4107d0a225882b149f94b2604
+      size: 12437
+    - path: results/regression_analysis/regression_plot.png
+      md5: d9c1d03aaada0e7945290c40707d1193
+      size: 80589
