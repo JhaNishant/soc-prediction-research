@@ -1,15 +1,24 @@
 import argparse
+import logging
 
+import joblib
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import GridSearchCV, train_test_split
 
 
 def main():
+    # Set up logging
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s')
+
+    logging.info('Starting script...')
+
     parser = argparse.ArgumentParser(
         description="Perform regression analysis and generate relevant plots."
     )
@@ -38,6 +47,11 @@ def main():
         type=str,
         help="Path to the output file for the regression plot.",
     )
+    parser.add_argument(
+        "rf_model",
+        type=str,
+        help="Path to the output file for the trained random forest model.",
+    )
 
     args = parser.parse_args()
 
@@ -46,6 +60,7 @@ def main():
     output_file_coefficients = args.output_file_coefficients
     predicted_vs_actual_plot = args.predicted_vs_actual_plot
     regression_plot = args.regression_plot
+    rf_model = args.rf_model
 
     # Load the dataset
     data = pd.read_csv(input_file)
@@ -61,17 +76,41 @@ def main():
         X, y, test_size=0.2, random_state=42)
 
     # Create a random forest regressor object
-    rf = RandomForestRegressor(n_estimators=100, random_state=42)
+    rf = RandomForestRegressor(random_state=42)
+
+    # Create a parameter grid
+    param_grid = {
+        'n_estimators': [100, 200, 500],
+        'max_features': ['1.0', 'sqrt', 'log2', None],
+        'max_depth': [10, 50, None],
+        'min_samples_split': [2, 5, 10],
+        'min_samples_leaf': [1, 2, 4]
+    }
+
+    # Create a GridSearchCV object
+    grid_search = GridSearchCV(rf, param_grid, cv=3, n_jobs=-1, verbose=2)
 
     # Train the model using the training sets
-    rf.fit(X_train, y_train)
+    grid_search.fit(X_train, y_train)
+
+    logging.info('rf_model trained.')
+
+    # Get the best estimator
+    best_rf = grid_search.best_estimator_
+
+    # Save the trained model to a file
+    joblib.dump(best_rf, rf_model)
+
+    logging.info('rf_model saved to rf_model.pkl.')
 
     # Use the model to make predictions on the test data
-    y_pred = rf.predict(X_test)
+    y_pred = best_rf.predict(X_test)  # type: ignore
 
     # Save predictions to a CSV file
     predictions = pd.DataFrame(data={'Actual': y_test, 'Predicted': y_pred})
     predictions.to_csv(output_file_predictions, index=False)
+
+    logging.info(f'Predictions saved to {output_file_predictions}.')
 
     # Plot predictions vs actual values
     plt.figure(figsize=(10, 6))
@@ -98,8 +137,11 @@ def main():
 
     plt.savefig(predicted_vs_actual_plot)
 
+    logging.info(
+        f'Predicted vs Actual plot saved to {predicted_vs_actual_plot}.')
+
     # Get the feature importance
-    importances = rf.feature_importances_
+    importances = best_rf.feature_importances_  # type: ignore
     indices = np.argsort(importances)[::-1]
 
     # Save the feature importances to a CSV file
@@ -108,6 +150,8 @@ def main():
             'Feature': X.columns[indices],
             'Importance': importances[indices]})
     feature_importances.to_csv(output_file_coefficients, index=False)
+
+    logging.info(f'Feature importances saved to {output_file_coefficients}.')
 
     # Plot the feature importances (only the top 10)
     plt.figure(figsize=(12, 12))  # Increased the size of the image
@@ -120,6 +164,10 @@ def main():
     plt.ylim([-1, 10])
     plt.gca().invert_yaxis()  # To display the highest importance on top
     plt.savefig(regression_plot)
+
+    logging.info(f'Regression plot saved to {regression_plot}.')
+
+    logging.info('Finished script.')
 
 
 if __name__ == '__main__':
