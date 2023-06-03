@@ -1,0 +1,39 @@
+name: sanity-check
+
+on:
+  push:
+    branches:
+      - main
+      - experiment
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: autobotraos/miniconda3-dvc:latest
+
+    steps:
+    # Checkout the repository
+    - name: Checkout repository
+      uses: actions/checkout@v3.5.2
+
+    # Set up Google Service Account for DVC
+    - name: Set up Google Service Account for DVC
+      run: |
+        echo "$GDRIVE_SERVICE_ACCOUNT_JSON" > service_account.json
+        dvc remote modify myremote gdrive_service_account_json_file_path service_account.json
+      env:
+        GDRIVE_SERVICE_ACCOUNT_JSON: ${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
+
+    # Set up DVC and pull the data
+    - name: Set up DVC
+      run: |
+        dvc pull
+
+    # Run DVC Repro to reproduce the pipeline
+    - name: Run DVC Repro
+      run: |
+        dvc repro
