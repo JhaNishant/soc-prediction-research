@@ -4,3 +4,4 @@ scikit-learn
 matplotlib
 seaborn
 joblib
+scikit-learn-intelex
