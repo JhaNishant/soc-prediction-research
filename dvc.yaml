@@ -6,6 +6,7 @@ stages:
       - src/preprocessing/data_cleaning.py
     outs:
       - data/preprocessed/cleaned_data.csv.gz
+
   correlation_analysis:
     cmd: >
       time python src/analysing/correlation_analysis.py
@@ -17,12 +18,12 @@ stages:
       - data/preprocessed/cleaned_data.csv.gz
       - src/analysing/correlation_analysis.py
     outs:
-      - results/correlation_analysis/soc_percent_correlations.csv:
-          cache: false
+      - results/correlation_analysis/soc_percent_correlations.csv
       - results/correlation_analysis/correlation_bar_graph.png:
           cache: false
       - results/correlation_analysis/scatterplot_matrix.png:
           cache: false
+
   data_imputation:
     cmd: time python src/preprocessing/data_imputation.py data/preprocessed/cleaned_data.csv.gz data/imputed/imputed_data.csv.gz
     deps:
@@ -30,3 +31,39 @@ stages:
       - src/preprocessing/data_imputation.py
     outs:
       - data/imputed/imputed_data.csv.gz
+
+  regression_analysis:
+    cmd: >
+      time python src/analysing/regression_analysis.py
+      data/imputed/imputed_data.csv.gz
+      results/regression_analysis/predictions.csv
+      results/regression_analysis/regression_coefficients.csv
+      results/regression_analysis/predicted_vs_actual_plot.png
+      results/regression_analysis/regression_plot.png
+      models/regression_analysis/rf_model.pkl
+    deps:
+      - data/imputed/imputed_data.csv.gz
+      - src/analysing/regression_analysis.py
+    outs:
+      - results/regression_analysis/predictions.csv
+      - results/regression_analysis/regression_coefficients.csv
+      - results/regression_analysis/predicted_vs_actual_plot.png:
+          cache: false
+      - results/regression_analysis/regression_plot.png:
+          cache: false
+      - models/regression_analysis/rf_model.pkl
+  
+  #permutation_importance:
+  #  cmd: > 
+  #    time python permutation_importance.py 
+  #    data.csv permutation_importance.csv 
+  #    permutation_importance.png 
+  #    rf_model.pkl
+  #  deps:
+  #    - permutation_importance.py
+  #    - data.csv
+  #    - rf_model.pkl
+  #  outs:
+  #    - permutation_importance.csv
+  #    - permutation_importance.png:
+  #        cache: false
