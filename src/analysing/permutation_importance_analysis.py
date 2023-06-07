@@ -75,12 +75,14 @@ def main():
     feature_importances.to_csv(output_file_csv, index=False)
     logging.info(f'Permutation importance scores saved to {output_file_csv}.')
 
-    plt.figure(figsize=(12, 8))
+    plt.figure(figsize=(16, 8))
     sns.barplot(
         x='weight',
         y='feature',
         data=feature_importances.head(10))
     plt.title('Top 10 Permutation Importance Scores')
+    plt.tight_layout()
+    plt.subplots_adjust(left=0.30)  # adjust the left padding
 
     # Get the maximum 'weight' value to set the xlim of the plot
     max_weight = feature_importances['weight'].head(10).max()
