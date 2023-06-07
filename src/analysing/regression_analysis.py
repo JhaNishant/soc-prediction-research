@@ -8,7 +8,7 @@ import pandas as pd
 import seaborn as sns
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-from sklearn.model_selection import GridSearchCV, train_test_split
+from sklearn.model_selection import train_test_split
 
 
 def main():
@@ -35,7 +35,7 @@ def main():
     parser.add_argument(
         "output_file_coefficients",
         type=str,
-        help="Path to the output file for the regression coefficients.",
+        help="Path to the output file for the feature importance.",
     )
     parser.add_argument(
         "predicted_vs_actual_plot",
@@ -76,40 +76,21 @@ def main():
         X, y, test_size=0.2, random_state=42)
 
     # Create a random forest regressor object
-    rf = RandomForestRegressor(random_state=42)
-
-    # Create a parameter grid
-    param_grid = {
-        'n_estimators': [100, 200, 500],
-        'max_features': ['1.0', 'sqrt', 'log2', None],
-        'max_depth': [10, 50, None],
-        'min_samples_split': [2, 5, 10],
-        'min_samples_leaf': [1, 2, 4]
-    }
-
-    # Create a GridSearchCV object
-    grid_search = GridSearchCV(rf, param_grid, cv=3, n_jobs=-1, verbose=2)
+    rf = RandomForestRegressor(random_state=42, n_jobs=-1, verbose=2)
 
     # Train the model using the training sets
-    grid_search.fit(X_train, y_train)
-
-    logging.info('rf_model trained.')
-
-    # Get the best estimator
-    best_rf = grid_search.best_estimator_
+    rf.fit(X_train, y_train)
 
     # Save the trained model to a file
-    joblib.dump(best_rf, rf_model)
-
-    logging.info('rf_model saved to rf_model.pkl.')
+    joblib.dump(rf, rf_model)
+    logging.info(f'rf_model saved to {rf_model}.')
 
     # Use the model to make predictions on the test data
-    y_pred = best_rf.predict(X_test)  # type: ignore
+    y_pred = rf.predict(X_test)
 
     # Save predictions to a CSV file
     predictions = pd.DataFrame(data={'Actual': y_test, 'Predicted': y_pred})
     predictions.to_csv(output_file_predictions, index=False)
-
     logging.info(f'Predictions saved to {output_file_predictions}.')
 
     # Plot predictions vs actual values
@@ -136,12 +117,11 @@ def main():
             alpha=0.5))
 
     plt.savefig(predicted_vs_actual_plot)
-
     logging.info(
         f'Predicted vs Actual plot saved to {predicted_vs_actual_plot}.')
 
     # Get the feature importance
-    importances = best_rf.feature_importances_  # type: ignore
+    importances = rf.feature_importances_
     indices = np.argsort(importances)[::-1]
 
     # Save the feature importances to a CSV file
@@ -150,7 +130,6 @@ def main():
             'Feature': X.columns[indices],
             'Importance': importances[indices]})
     feature_importances.to_csv(output_file_coefficients, index=False)
-
     logging.info(f'Feature importances saved to {output_file_coefficients}.')
 
     # Plot the feature importances (only the top 10)
@@ -164,7 +143,6 @@ def main():
     plt.ylim([-1, 10])
     plt.gca().invert_yaxis()  # To display the highest importance on top
     plt.savefig(regression_plot)
-
     logging.info(f'Regression plot saved to {regression_plot}.')
 
     logging.info('Finished script.')

@@ -1,4 +1,5 @@
 import argparse
+import logging
 
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
@@ -7,6 +8,13 @@ from sklearn.impute import IterativeImputer
 
 
 def main():
+    # Set up logging
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s')
+
+    logging.info('Starting script...')
+
     parser = argparse.ArgumentParser(
         description="Impute missing values in the dataset."
     )
@@ -44,20 +52,23 @@ def main():
         # If the column has missing values
         if df[col].isnull().sum() > 0:
             # Print a message indicating that imputation is starting
-            print(f"Imputing {col}...")
+            logging.info(f"Imputing {col}...")
             # Perform imputation on the column and store the result in the copy
             df_imputed[col] = imputer.fit_transform(df[[col]])
             # Print a message indicating that imputation is complete
-            print(f"Finished imputing {col}.")
+            logging.info(f"Finished imputing {col}.")
 
     # Print a message indicating that all imputation is complete
-    print("Imputation complete.")
+    logging.info("Imputation complete.")
 
     # The result is a numpy array, so convert it back to a DataFrame
     df_imputed = pd.DataFrame(df_imputed, columns=df.columns)
 
     # Save the cleaned dataset to a file
     df_imputed.to_csv(output_file, index=False)
+    logging.info(f'Saved the imputed dataset to {output_file}.')
+
+    logging.info('Finished script.')
 
 
 if __name__ == "__main__":

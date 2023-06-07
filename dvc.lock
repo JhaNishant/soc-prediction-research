@@ -1,74 +1,99 @@
 schema: '2.0'
 stages:
   data_cleaning:
-    cmd: time python src/preprocessing/data_cleaning.py data/raw/lucas.csv.gz data/preprocessed/cleaned_data.csv.gz
+    cmd: python src/preprocessing/data_cleaning.py data/raw/lucas.csv.gz data/preprocessed/cleaned_data.csv.gz
     deps:
     - path: data/raw/lucas.csv.gz
       md5: 3ea8e5d4f415ddba6a294bee61e55db6
       size: 28112307
     - path: src/preprocessing/data_cleaning.py
-      md5: 5eebdb474584b6782349e22d1c9f1f10
-      size: 853
+      md5: f5cd0205a94dd5e32f618262dfc6514a
+      size: 1196
     outs:
     - path: data/preprocessed/cleaned_data.csv.gz
-      md5: c5baa59c043eb4ae692328ccce0e0171
-      size: 27383059
+      md5: b2c4367c88c3325adb11c14d21352357
+      size: 27394784
   correlation_analysis:
-    cmd: "time python src/analysing/correlation_analysis.py data/preprocessed/cleaned_data.csv.gz\
+    cmd: "python src/analysing/correlation_analysis.py data/preprocessed/cleaned_data.csv.gz\
       \ results/correlation_analysis/soc_percent_correlations.csv results/correlation_analysis/correlation_bar_graph.png\
       \ results/correlation_analysis/scatterplot_matrix.png\n"
     deps:
     - path: data/preprocessed/cleaned_data.csv.gz
-      md5: c5baa59c043eb4ae692328ccce0e0171
-      size: 27383059
+      md5: b2c4367c88c3325adb11c14d21352357
+      size: 27394784
     - path: src/analysing/correlation_analysis.py
-      md5: e4034a6f4d7a74986c1d386dfccd8bfa
-      size: 3442
+      md5: 62a49738fb7edb428133f2213d312211
+      size: 4009
     outs:
     - path: results/correlation_analysis/correlation_bar_graph.png
-      md5: 1e4b666bcf0f93899bd51349ae521b15
-      size: 45191
+      md5: dfbd456ea5ab715c9984b0b1df3f1eb9
+      size: 45099
     - path: results/correlation_analysis/scatterplot_matrix.png
-      md5: 66fb801f37034917c75076b6f6c5be8f
-      size: 1985953
+      md5: a1d8145ba5300c8ddc92d19c0e1600e4
+      size: 1984548
     - path: results/correlation_analysis/soc_percent_correlations.csv
       md5: c13ecf37b0d0ad5758e705df5e62443e
-      size: 12263
+      size: 12437
   data_imputation:
-    cmd: time python src/preprocessing/data_imputation.py data/preprocessed/cleaned_data.csv.gz
+    cmd: python src/preprocessing/data_imputation.py data/preprocessed/cleaned_data.csv.gz
       data/imputed/imputed_data.csv.gz
     deps:
     - path: data/preprocessed/cleaned_data.csv.gz
-      md5: c5baa59c043eb4ae692328ccce0e0171
-      size: 27383059
+      md5: b2c4367c88c3325adb11c14d21352357
+      size: 27394784
     - path: src/preprocessing/data_imputation.py
-      md5: 7e88bfb6d5594e18f51e3771e2fdd934
-      size: 1836
+      md5: 53df3bdde2f0cc6a98187141e3307cfa
+      size: 2227
     outs:
     - path: data/imputed/imputed_data.csv.gz
-      md5: 4005d57c42e11deeb88f700f160b3990
-      size: 27554564
+      md5: bd5c8a4a67f21fac8f637f9ad4b9f6c6
+      size: 27567121
   regression_analysis:
-    cmd: "time python src/analysing/regression_analysis.py data/imputed/imputed_data.csv.gz\
+    cmd: "python src/analysing/regression_analysis.py data/imputed/imputed_data.csv.gz\
       \ results/regression_analysis/predictions.csv results/regression_analysis/regression_coefficients.csv\
-      \ results/regression_analysis/predicted_vs_actual_plot.png results/regression_analysis/regression_plot.png\n"
+      \ results/regression_analysis/predicted_vs_actual_plot.png results/regression_analysis/regression_plot.png\
+      \ models/regression_analysis/rf_model.pkl\n"
     deps:
     - path: data/imputed/imputed_data.csv.gz
-      md5: 4005d57c42e11deeb88f700f160b3990
-      size: 27554564
+      md5: bd5c8a4a67f21fac8f637f9ad4b9f6c6
+      size: 27567121
     - path: src/analysing/regression_analysis.py
-      md5: 1d816030a7d93b297653cab26c087367
-      size: 4042
+      md5: 745f4d577bd04d90aefbd1c8900ab965
+      size: 5174
     outs:
+    - path: models/regression_analysis/rf_model.pkl
+      md5: 36f6c5b40ab681b405316ee3dc730bf9
+      size: 396628689
     - path: results/regression_analysis/predicted_vs_actual_plot.png
       md5: 092a49a518da58783da8f0ca41481d9f
       size: 105695
     - path: results/regression_analysis/predictions.csv
-      md5: fcade9e077b753a25652b02d753ef144
-      size: 275450
+      md5: 7032f691ee4ae6654cbdf5e2ccee4a0a
+      size: 287524
     - path: results/regression_analysis/regression_coefficients.csv
-      md5: c59708a4107d0a225882b149f94b2604
-      size: 12437
+      md5: 355bf6b0785abe92d344d7836a365156
+      size: 12610
     - path: results/regression_analysis/regression_plot.png
       md5: d9c1d03aaada0e7945290c40707d1193
       size: 80589
+  permutation_importance:
+    cmd: "python src/analysing/permutation_importance_analysis.py data/imputed/imputed_data.csv.gz\
+      \ results/permutation_importance_analysis/permutation_importance.csv results/permutation_importance_analysis/permutation_importance.png\
+      \  models/regression_analysis/rf_model.pkl\n"
+    deps:
+    - path: data/imputed/imputed_data.csv.gz
+      md5: bd5c8a4a67f21fac8f637f9ad4b9f6c6
+      size: 27567121
+    - path: models/regression_analysis/rf_model.pkl
+      md5: 36f6c5b40ab681b405316ee3dc730bf9
+      size: 396628689
+    - path: src/analysing/permutation_importance_analysis.py
+      md5: 0b889f762050e73fc7cb3205bfd4c83a
+      size: 2788
+    outs:
+    - path: results/permutation_importance_analysis/permutation_importance.csv
+      md5: 7c1d1f0ef620df6bc0761a8d14617ab8
+      size: 16513
+    - path: results/permutation_importance_analysis/permutation_importance.png
+      md5: 975ec2320f97477bbfd22ea9a37745a3
+      size: 57121

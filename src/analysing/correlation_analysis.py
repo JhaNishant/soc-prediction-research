@@ -1,4 +1,5 @@
 import argparse
+import logging
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -6,6 +7,13 @@ import seaborn as sns
 
 
 def main():
+    # Set up logging
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s')
+
+    logging.info('Starting script...')
+
     parser = argparse.ArgumentParser(
         description="Calculate the correlation coefficients between "
                     "'soc_percent' and other features.")
@@ -57,6 +65,7 @@ def main():
 
     # Save the sorted result to a file with a proper header
     output_df.to_csv(output_file, index=False)
+    logging.info(f"Saved correlation coefficients to {output_file}")
 
     # Threshold for filtering correlation coefficients
     threshold = 0.4
@@ -95,6 +104,7 @@ def main():
 
     plt.tight_layout()
     plt.savefig(correlation_bar_graph)
+    logging.info(f"Saved correlation bar graph to {correlation_bar_graph}")
 
     # Create a scatter plot matrix for the significant_corr columns
     significant_columns = list(significant_corr.index)
@@ -102,6 +112,9 @@ def main():
 
     sns.pairplot(scatter_df)
     plt.savefig(scatterplot_matrix)
+    logging.info(f"Saved scatter plot matrix to {scatterplot_matrix}")
+
+    logging.info('Finished script.')
 
 
 if __name__ == "__main__":

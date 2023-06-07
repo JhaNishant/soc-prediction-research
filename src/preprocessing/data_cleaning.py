@@ -1,9 +1,17 @@
 import argparse
+import logging
 
 import pandas as pd
 
 
 def main():
+    # Set up logging
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s')
+
+    logging.info('Starting script...')
+
     parser = argparse.ArgumentParser(
         description="Clean the dataset by dropping specified columns."
     )
@@ -31,6 +39,9 @@ def main():
 
     # Save the cleaned dataset to a file
     df.to_csv(output_file, index=False)
+    logging.info(f'Saved the cleaned dataset to {output_file}.')
+
+    logging.info('Finished script.')
 
 
 if __name__ == "__main__":

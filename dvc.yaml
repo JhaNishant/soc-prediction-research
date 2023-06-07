@@ -1,6 +1,6 @@
 stages:
   data_cleaning:
-    cmd: time python src/preprocessing/data_cleaning.py data/raw/lucas.csv.gz data/preprocessed/cleaned_data.csv.gz
+    cmd: python src/preprocessing/data_cleaning.py data/raw/lucas.csv.gz data/preprocessed/cleaned_data.csv.gz
     deps:
       - data/raw/lucas.csv.gz
       - src/preprocessing/data_cleaning.py
@@ -9,7 +9,7 @@ stages:
 
   correlation_analysis:
     cmd: >
-      time python src/analysing/correlation_analysis.py
+      python src/analysing/correlation_analysis.py
       data/preprocessed/cleaned_data.csv.gz
       results/correlation_analysis/soc_percent_correlations.csv
       results/correlation_analysis/correlation_bar_graph.png
@@ -25,7 +25,7 @@ stages:
           cache: false
 
   data_imputation:
-    cmd: time python src/preprocessing/data_imputation.py data/preprocessed/cleaned_data.csv.gz data/imputed/imputed_data.csv.gz
+    cmd: python src/preprocessing/data_imputation.py data/preprocessed/cleaned_data.csv.gz data/imputed/imputed_data.csv.gz
     deps:
       - data/preprocessed/cleaned_data.csv.gz
       - src/preprocessing/data_imputation.py
@@ -34,7 +34,7 @@ stages:
 
   regression_analysis:
     cmd: >
-      time python src/analysing/regression_analysis.py
+      python src/analysing/regression_analysis.py
       data/imputed/imputed_data.csv.gz
       results/regression_analysis/predictions.csv
       results/regression_analysis/regression_coefficients.csv
@@ -53,17 +53,18 @@ stages:
           cache: false
       - models/regression_analysis/rf_model.pkl
   
-  #permutation_importance:
-  #  cmd: > 
-  #    time python permutation_importance.py 
-  #    data.csv permutation_importance.csv 
-  #    permutation_importance.png 
-  #    rf_model.pkl
-  #  deps:
-  #    - permutation_importance.py
-  #    - data.csv
-  #    - rf_model.pkl
-  #  outs:
-  #    - permutation_importance.csv
-  #    - permutation_importance.png:
-  #        cache: false
+  permutation_importance:
+    cmd: > 
+      python src/analysing/permutation_importance_analysis.py
+      data/imputed/imputed_data.csv.gz
+      results/permutation_importance_analysis/permutation_importance.csv
+      results/permutation_importance_analysis/permutation_importance.png 
+      models/regression_analysis/rf_model.pkl
+    deps:
+      - src/analysing/permutation_importance_analysis.py
+      - data/imputed/imputed_data.csv.gz
+      - models/regression_analysis/rf_model.pkl
+    outs:
+      - results/permutation_importance_analysis/permutation_importance.csv
+      - results/permutation_importance_analysis/permutation_importance.png:
+          cache: false
