@@ -97,3 +97,21 @@ stages:
     - path: results/permutation_importance_analysis/permutation_importance.png
       md5: ef75f9140fd4cd1f7064ee34628f8197
       size: 58492
+  clustering_analysis:
+    cmd: "python src/analysing/clustering_analysis.py data/imputed/imputed_data.csv.gz\
+      \ results/clustering_analysis\n"
+    deps:
+    - path: data/imputed/imputed_data.csv.gz
+      hash: md5
+      md5: 5fdaa4ad8e9da3d424767e7087526e24
+      size: 27567121
+    - path: src/analysing/clustering_analysis.py
+      hash: md5
+      md5: 8856a0f4510cc36ab5801ff43cb300b0
+      size: 3497
+    outs:
+    - path: results/clustering_analysis
+      hash: md5
+      md5: 14cdb57eab9d4b4feed20343f1e2d631.dir
+      size: 88836323
+      nfiles: 11

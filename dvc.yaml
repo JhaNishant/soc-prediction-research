@@ -71,12 +71,11 @@ stages:
 
   clustering_analysis:
     cmd: >
-      python 
-      src/analysing/clustering_analysis.py
+      python src/analysing/clustering_analysis.py
       data/imputed/imputed_data.csv.gz
       results/clustering_analysis
     deps:
       - src/analysing/clustering_analysis.py
       - data/imputed/imputed_data.csv.gz
     outs:
-      - result/clustering_analysis
+      - results/clustering_analysis
