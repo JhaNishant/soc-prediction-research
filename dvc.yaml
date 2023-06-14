@@ -68,3 +68,15 @@ stages:
       - results/permutation_importance_analysis/permutation_importance.csv
       - results/permutation_importance_analysis/permutation_importance.png:
           cache: false
+
+  clustering_analysis:
+    cmd: >
+      python 
+      src/analysing/clustering_analysis.py
+      data/imputed/imputed_data.csv.gz
+      results/clustering_analysis
+    deps:
+      - src/analysing/clustering_analysis.py
+      - data/imputed/imputed_data.csv.gz
+    outs:
+      - result/clustering_analysis
