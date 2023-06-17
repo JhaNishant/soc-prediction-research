@@ -1,6 +1,9 @@
 stages:
   data_cleaning:
-    cmd: python src/preprocessing/data_cleaning.py data/raw/lucas.csv.gz data/preprocessed/cleaned_data.csv.gz
+    cmd: > 
+      time python src/preprocessing/data_cleaning.py
+      data/raw/lucas.csv.gz
+      data/preprocessed/cleaned_data.csv.gz
     deps:
       - data/raw/lucas.csv.gz
       - src/preprocessing/data_cleaning.py
@@ -9,7 +12,7 @@ stages:
 
   correlation_analysis:
     cmd: >
-      python src/analysing/correlation_analysis.py
+      time python src/analysing/correlation_analysis.py
       data/preprocessed/cleaned_data.csv.gz
       results/correlation_analysis/soc_percent_correlations.csv
       results/correlation_analysis/correlation_bar_graph.png
@@ -25,7 +28,10 @@ stages:
           cache: false
 
   data_imputation:
-    cmd: python src/preprocessing/data_imputation.py data/preprocessed/cleaned_data.csv.gz data/imputed/imputed_data.csv.gz
+    cmd: > 
+      time python src/preprocessing/data_imputation.py
+      data/preprocessed/cleaned_data.csv.gz
+      data/imputed/imputed_data.csv.gz
     deps:
       - data/preprocessed/cleaned_data.csv.gz
       - src/preprocessing/data_imputation.py
@@ -34,7 +40,7 @@ stages:
 
   regression_analysis:
     cmd: >
-      python src/analysing/regression_analysis.py
+      time python src/analysing/regression_analysis.py
       data/imputed/imputed_data.csv.gz
       results/regression_analysis/predictions.csv
       results/regression_analysis/regression_coefficients.csv
@@ -55,7 +61,7 @@ stages:
   
   permutation_importance:
     cmd: > 
-      python src/analysing/permutation_importance_analysis.py
+      time python src/analysing/permutation_importance_analysis.py
       data/imputed/imputed_data.csv.gz
       results/permutation_importance_analysis/permutation_importance.csv
       results/permutation_importance_analysis/permutation_importance.png 
@@ -68,14 +74,3 @@ stages:
       - results/permutation_importance_analysis/permutation_importance.csv
       - results/permutation_importance_analysis/permutation_importance.png:
           cache: false
-
-  clustering_analysis:
-    cmd: >
-      python src/analysing/clustering_analysis.py
-      data/imputed/imputed_data.csv.gz
-      results/clustering_analysis
-    deps:
-      - src/analysing/clustering_analysis.py
-      - data/imputed/imputed_data.csv.gz
-    outs:
-      - results/clustering_analysis
