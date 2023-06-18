@@ -5,7 +5,7 @@ import cupy as cp
 import joblib
 import matplotlib.pyplot as plt
 import pandas as pd
-from sklearn.linear_model import Lasso
+from cuml.linear_model import Lasso
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
 
