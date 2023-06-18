@@ -15,9 +15,8 @@ stages:
     outs:
     - path: data/preprocessed/cleaned_data.csv.gz
       hash: md5
-      md5: 3de987f7b6ab994edd12732ed0083ccf
+      md5: aa2edefec2717ed144f7e46dc4f662c4
       size: 27383059
-      isexec: true
   correlation_analysis:
     cmd: "time python src/analysing/correlation_analysis.py data/preprocessed/cleaned_data.csv.gz\
       \ results/correlation_analysis/soc_percent_correlations.csv results/correlation_analysis/correlation_bar_graph.png\
@@ -25,7 +24,7 @@ stages:
     deps:
     - path: data/preprocessed/cleaned_data.csv.gz
       hash: md5
-      md5: 3de987f7b6ab994edd12732ed0083ccf
+      md5: aa2edefec2717ed144f7e46dc4f662c4
       size: 27383059
     - path: src/analysing/correlation_analysis.py
       hash: md5
@@ -37,24 +36,21 @@ stages:
       hash: md5
       md5: dfbd456ea5ab715c9984b0b1df3f1eb9
       size: 45099
-      isexec: true
     - path: results/correlation_analysis/scatterplot_matrix.png
       hash: md5
       md5: a1d8145ba5300c8ddc92d19c0e1600e4
       size: 1984548
-      isexec: true
     - path: results/correlation_analysis/soc_percent_correlations.csv
       hash: md5
       md5: c13ecf37b0d0ad5758e705df5e62443e
       size: 12263
-      isexec: true
   data_imputation:
     cmd: "time python src/preprocessing/data_imputation.py data/preprocessed/cleaned_data.csv.gz\
       \ data/imputed/imputed_data.csv.gz\n"
     deps:
     - path: data/preprocessed/cleaned_data.csv.gz
       hash: md5
-      md5: 3de987f7b6ab994edd12732ed0083ccf
+      md5: aa2edefec2717ed144f7e46dc4f662c4
       size: 27383059
     - path: src/preprocessing/data_imputation.py
       hash: md5
@@ -64,9 +60,8 @@ stages:
     outs:
     - path: data/imputed/imputed_data.csv.gz
       hash: md5
-      md5: a69473ebb769547b888e6cbccbc9fd93
+      md5: 4bd21d0b66785375c064bca16f905f1b
       size: 27554564
-      isexec: true
   regression_analysis:
     cmd: "time python src/analysing/regression_analysis.py data/imputed/imputed_data.csv.gz\
       \ results/regression_analysis/predictions.csv results/regression_analysis/regression_coefficients.csv\
@@ -75,7 +70,7 @@ stages:
     deps:
     - path: data/imputed/imputed_data.csv.gz
       hash: md5
-      md5: a69473ebb769547b888e6cbccbc9fd93
+      md5: 4bd21d0b66785375c064bca16f905f1b
       size: 27554564
     - path: src/analysing/regression_analysis.py
       hash: md5
@@ -87,27 +82,22 @@ stages:
       hash: md5
       md5: 46ead5d665e7b76c9ff9a283fba633ab
       size: 396628737
-      isexec: true
     - path: results/regression_analysis/predicted_vs_actual_plot.png
       hash: md5
       md5: 092a49a518da58783da8f0ca41481d9f
       size: 105695
-      isexec: true
     - path: results/regression_analysis/predictions.csv
       hash: md5
-      md5: cbde985719ba73a72321952e5fd0c892
-      size: 275129
-      isexec: true
+      md5: 90f083238f53d374110abd3509b0ed3b
+      size: 275078
     - path: results/regression_analysis/regression_coefficients.csv
       hash: md5
       md5: c59708a4107d0a225882b149f94b2604
       size: 12437
-      isexec: true
     - path: results/regression_analysis/regression_plot.png
       hash: md5
       md5: d9c1d03aaada0e7945290c40707d1193
       size: 80589
-      isexec: true
   permutation_importance:
     cmd: "time python src/analysing/permutation_importance_analysis.py data/imputed/imputed_data.csv.gz\
       \ results/permutation_importance_analysis/permutation_importance.csv results/permutation_importance_analysis/permutation_importance.png\
@@ -115,7 +105,7 @@ stages:
     deps:
     - path: data/imputed/imputed_data.csv.gz
       hash: md5
-      md5: a69473ebb769547b888e6cbccbc9fd93
+      md5: 4bd21d0b66785375c064bca16f905f1b
       size: 27554564
     - path: models/regression_analysis/rf_model.pkl
       hash: md5
@@ -129,14 +119,12 @@ stages:
     outs:
     - path: results/permutation_importance_analysis/permutation_importance.csv
       hash: md5
-      md5: fe12c899019178c752ac6fc50f502df6
-      size: 16346
-      isexec: true
+      md5: 34808169dd90fb085141e0eb6215d478
+      size: 16334
     - path: results/permutation_importance_analysis/permutation_importance.png
       hash: md5
       md5: ef75f9140fd4cd1f7064ee34628f8197
       size: 58492
-      isexec: true
   clustering_analysis:
     cmd: "python src/analysing/clustering_analysis.py data/imputed/imputed_data.csv.gz\
       \ results/clustering_analysis\n"

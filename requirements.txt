@@ -3,3 +3,4 @@ dvc[gdrive]
 pre-commit
 eli5
 pip
+cupy-cuda12x
