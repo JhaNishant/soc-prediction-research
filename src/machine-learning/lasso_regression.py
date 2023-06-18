@@ -34,11 +34,25 @@ def main():
         type=str,
         help="Path to the output file for the trained model."
     )
+    # Output coefficients file path
+    parser.add_argument(
+        "coeff_file",
+        type=str,
+        help="Path to the output file for the model's coefficients."
+    )
+    # Output plot file path
+    parser.add_argument(
+        "plot_file",
+        type=str,
+        help="Path to the output file for the prediction plot."
+    )
 
     args = parser.parse_args()
 
     input_file = args.input_file
     model_file = args.model_file
+    coeff_file = args.coeff_file
+    plot_file = args.plot_file
 
     # Load dataset
     data = pd.read_csv(input_file)
@@ -75,13 +89,18 @@ def main():
     joblib.dump(lasso, model_file)
     logging.info(f'Model saved to {model_file}.')
 
+    # Save coefficients
+    coeff_df = pd.DataFrame(lasso.coef_, X.columns, columns=['Coefficient'])
+    coeff_df.to_csv(coeff_file)
+    logging.info(f'Coefficients saved to {coeff_file}.')
+
     # Plot actual vs predicted values
     plt.scatter(y_test.get(), y_pred)
     plt.xlabel('Actual Values')
     plt.ylabel('Predicted Values')
     plt.title('Actual vs Predicted Values for Lasso Regression')
-    plt.savefig('lasso_regression_plot.png')
-    logging.info('Plot saved as lasso_regression_plot.png')
+    plt.savefig(plot_file)
+    logging.info(f'Plot saved as {plot_file}.')
 
     logging.info('Finished script.')
 

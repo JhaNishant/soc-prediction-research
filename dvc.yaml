@@ -74,3 +74,20 @@ stages:
       - results/permutation_importance_analysis/permutation_importance.csv
       - results/permutation_importance_analysis/permutation_importance.png:
           cache: false
+
+  lasso_regression:
+    cmd: >
+      time python src/machine_learning/lasso_regression.py
+      data/imputed/imputed_data.csv.gz
+      models/lasso_regression/lr_model.pkl
+      results/lasso_regression/lasso_coefficients.csv
+      results/lasso_regression/lasso_regression_plot.png
+    deps:
+      - data/imputed/imputed_data.csv.gz
+      - src/machine_learning/lasso_regression.py
+    outs:
+      - models/lasso_regression/lr_model.pkl
+      - results/lasso_regression/lasso_coefficients.csv
+      - results/lasso_regression/lasso_regression_plot.png:
+          cache: false
+          
