@@ -7,3 +7,23 @@ Done! Correlation analysis: You can calculate the correlation coefficient betwee
 Done! Regression analysis: You can perform regression analysis to build a model that predicts 'soc_percent' using other features in the dataset. You can use various regression techniques like linear regression, polynomial regression, or any other regression method that suits your data.
 
 Done! Permutation Feature importance analysis: You can analyze the importance of each feature in predicting 'soc_percent'. You can use techniques like feature importance ranking or decision tree-based methods like random forest or gradient boosting.
+
+# Time for ML
+
+1. Lasso Regression
+
+    Develop a script named lasso_regression.py.
+    Implement the Lasso class from the Scikit-learn library.
+    Leverage the CuPy library for GPU-accelerated computations.
+
+2. Support Vector Machines (SVM)
+
+    Develop a script named svm_regression.py.
+    Implement the SVR class from the Scikit-learn library.
+    Integrate the ThunderSVM library for GPU-accelerated SVM training.
+
+3. Polynomial Regression
+
+    Develop a script named polynomial_regression.py.
+    Implement the PolynomialFeatures class from the Scikit-learn library.
+    Utilize the CuPy library for GPU-accelerated polynomial computations.
