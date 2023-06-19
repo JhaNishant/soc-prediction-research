@@ -108,7 +108,7 @@ def main():
     # Compute residuals
     residuals = y_test.get() - y_pred.get()
 
-    fig, ax = plt.subplots(1, 3, figsize=(20, 6))
+    fig, ax = plt.subplots(1, 2, figsize=(14, 6))
 
     # Actual vs Predicted plot
     sns.scatterplot(
