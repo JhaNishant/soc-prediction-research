@@ -164,3 +164,24 @@ stages:
       hash: md5
       md5: d8e144be1d3b94730f1970c3ff89d0a6
       size: 190784
+  svm_regression:
+    cmd: "time python src/machine_learning/svm_regression.py data/imputed/imputed_data.csv.gz\
+      \ models/svm_regression/svm_model.pkl results/svm_regression/svm_regression_plot.png\n"
+    deps:
+    - path: data/imputed/imputed_data.csv.gz
+      hash: md5
+      md5: 26a7461bfc273013a2e1f483dc2bb645
+      size: 27554564
+    - path: src/machine_learning/svm_regression.py
+      hash: md5
+      md5: 0c85d08e761738d437e8a994f7cb0422
+      size: 4440
+    outs:
+    - path: models/svm_regression/svm_model.pkl
+      hash: md5
+      md5: 7efd7d25b49b4eea4e77498b31fac108
+      size: 69048480
+    - path: results/svm_regression/svm_regression_plot.png
+      hash: md5
+      md5: 2a9c72ca0485b2bf24b7deffd9d6b197
+      size: 53711
