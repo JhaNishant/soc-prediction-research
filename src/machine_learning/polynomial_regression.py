@@ -77,7 +77,7 @@ def main():
         X, y, test_size=0.2, random_state=42)
 
     # Create polynomial features with degree hyperparameter
-    polynomial_features = PolynomialFeatures(degree=3)
+    polynomial_features = PolynomialFeatures(degree=2)
     X_train_poly = polynomial_features.fit_transform(X_train)
     X_test_poly = polynomial_features.transform(X_test)
 
