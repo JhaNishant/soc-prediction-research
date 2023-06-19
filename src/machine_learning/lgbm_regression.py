@@ -2,13 +2,12 @@ import argparse
 import logging
 
 import cudf
-import cupy as cp
 import joblib
+import lightgbm as lgb
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
-from cuml import LinearRegression as cuLinearRegression
 from cuml.metrics.regression import (mean_absolute_error, mean_squared_error,
                                      r2_score)
 from cuml.model_selection import train_test_split as cuml_train_test_split
@@ -45,11 +44,11 @@ def main():
         type=str,
         help="Path to the output file for the prediction plot."
     )
-    # Output coefficients file path
+    # Output feature importances file path
     parser.add_argument(
-        "coefficients_file",
+        "importances_file",
         type=str,
-        help="Path to the output file for the coefficients."
+        help="Path to the output file for the feature importances."
     )
 
     args = parser.parse_args()
@@ -57,7 +56,7 @@ def main():
     input_file = args.input_file
     model_file = args.model_file
     plot_file = args.plot_file
-    coefficients_file = args.coefficients_file
+    importances_file = args.importances_file
 
     # Load dataset
     data = pd.read_csv(input_file)
@@ -81,39 +80,41 @@ def main():
     X_train_poly = polynomial_features.fit_transform(X_train)
     X_test_poly = polynomial_features.transform(X_test)
 
-    # Initialize Polynomial Regression model
-    poly_reg = cuLinearRegression()
+    # Initialize LightGBM Regression model
+    lgb_reg = lgb.LGBMRegressor()
 
-    # Train model
-    poly_reg.fit(X_train_poly, y_train)
+    # Convert cuDF dataframes to numpy arrays for LightGBM compatibility
+    X_train_np = X_train_poly.to_pandas().values
+    y_train_np = y_train.to_pandas().values.ravel()
+    X_test_np = X_test_poly.to_pandas().values
+
+    # Train LightGBM model
+    lgb_reg.fit(X_train_np, y_train_np)
     logging.info('Model trained.')
 
     # Predict on test data
-    y_pred = poly_reg.predict(X_test_poly)
-
-    # Convert cuDF series to cupy array for further computation
-    y_pred = cp.asarray(y_pred)
+    y_pred = lgb_reg.predict(X_test_np)
 
     # Calculate Mean Squared Error
     mse = mean_squared_error(y_test, y_pred)
     logging.info(f'Mean Squared Error: {mse}')
 
     # Save trained model
-    joblib.dump(poly_reg, model_file)
+    joblib.dump(lgb_reg, model_file)
     logging.info(f'Model saved to {model_file}.')
 
-    # Convert cuDF series to cupy array for plotting
-    y_test = cp.asarray(y_test)
+    # Convert cuDF series to numpy arrays for plotting
+    y_test_np = y_test.to_pandas().values
 
     # Compute residuals
-    residuals = y_test.get() - y_pred.get()
+    residuals = y_test_np - y_pred
 
     fig, ax = plt.subplots(1, 2, figsize=(14, 6))
 
     # Actual vs Predicted plot
     sns.scatterplot(
-        x=y_test.get(),
-        y=y_pred.get(),
+        x=y_test_np,
+        y=y_pred,
         ax=ax[0],
         edgecolor=None,
         alpha=0.6,
@@ -130,7 +131,7 @@ def main():
 
     # Residual plot
     sns.scatterplot(
-        x=y_pred.get(),
+        x=y_pred,
         y=residuals,
         ax=ax[1],
         edgecolor=None,
@@ -169,34 +170,17 @@ def main():
     plt.savefig(plot_file)
     logging.info(f'Plot saved as {plot_file}.')
 
-    # Get the coefficients for each term in the polynomial regression equation
-    coefficients = poly_reg.coef_
-    equation = generate_equation(polynomial_features, coefficients)
+    # Get feature importances
+    importances = lgb_reg.feature_importances_
 
-    # Save coefficients and equation to a CSV file
-    coefficients_df = pd.DataFrame(
-        {'Term': equation.keys(), 'Coefficient': equation.values()})
-    coefficients_df.to_csv(coefficients_file, index=False)
-    logging.info(f'Coefficients saved to {coefficients_file}.')
+    # Save feature importances to a CSV file
+    importances_df = pd.DataFrame({
+        'Feature': polynomial_features.get_feature_names_out()[1:],
+        'Importance': importances})
+    importances_df.to_csv(importances_file, index=False)
+    logging.info(f'Feature importances saved to {importances_file}.')
 
     logging.info('Finished script.')
-
-
-def generate_equation(polynomial_features, coefficients):
-    # Get the feature names from the polynomial features
-    feature_names = polynomial_features.get_feature_names_out()
-
-    # Remove the constant term (intercept) from the feature names
-    feature_names = feature_names[1:]
-
-    # Create a dictionary to store the equation
-    equation = {}
-
-    # Generate the equation by combining the feature names and coefficients
-    for feature, coefficient in zip(feature_names, coefficients):
-        equation[feature] = coefficient
-
-    return equation
 
 
 if __name__ == '__main__':
