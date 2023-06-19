@@ -104,3 +104,19 @@ stages:
       - models/svm_regression/svm_model.pkl
       - results/svm_regression/svm_regression_plot.png:
           cache: false
+
+  polynomian_regression:
+    cmd: >
+      time python src/machine_learning/polynomial_regression.py
+      data/imputed/imputed_data.csv.gz
+      models/polynomial_regression/pr_model.pkl
+      results/polynomial_regression/polynomial_regression_plot.png
+      results/polynomial_regression/polynomial_regression_coefficients.csv
+    deps:
+      - data/imputed/imputed_data.csv.gz
+      - src/machine_learning/polynomial_regression.py
+    outs:
+      - models/polynomial_regression/pr_model.pkl
+      - results/polynomial_regression/polynomial_regression_plot.png:
+          cache: false
+      - results/polynomial_regression/polynomial_regression_coefficients.csv

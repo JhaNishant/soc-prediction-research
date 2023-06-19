@@ -8,11 +8,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
-from cuml import SVR as cuSVR
+from cuml import LinearRegression as cuLinearRegression
 from cuml.metrics.regression import (mean_absolute_error, mean_squared_error,
                                      r2_score)
 from cuml.model_selection import train_test_split as cuml_train_test_split
-from cuml.preprocessing import StandardScaler
+from cuml.preprocessing import PolynomialFeatures
 
 
 def main():
@@ -25,7 +25,7 @@ def main():
 
     # Argument parser for command line interaction
     parser = argparse.ArgumentParser(
-        description="Train a Support Vector Regression model."
+        description="Train a Polynomial Regression model."
     )
     # Input dataset file path
     parser.add_argument(
@@ -45,12 +45,19 @@ def main():
         type=str,
         help="Path to the output file for the prediction plot."
     )
+    # Output coefficients file path
+    parser.add_argument(
+        "coefficients_file",
+        type=str,
+        help="Path to the output file for the coefficients."
+    )
 
     args = parser.parse_args()
 
     input_file = args.input_file
     model_file = args.model_file
     plot_file = args.plot_file
+    coefficients_file = args.coefficients_file
 
     # Load dataset
     data = pd.read_csv(input_file)
@@ -69,20 +76,54 @@ def main():
     X_train, X_test, y_train, y_test = cuml_train_test_split(
         X, y, test_size=0.2, random_state=42)
 
-    # Scale data
-    scaler = StandardScaler()
-    X_train = scaler.fit_transform(X_train)
-    X_test = scaler.transform(X_test)
+    best_degree = None
+    best_mse = np.inf
 
-    # Initialize Support Vector Regression model
-    svr = cuSVR(kernel='rbf', C=1e3, gamma=0.2)
+    # Set the maximum degree of the polynomial features
+    max_degree = 10
+
+    for degree in range(2, max_degree + 1):
+        # Create polynomial features
+        polynomial_features = PolynomialFeatures(degree=degree)
+        X_train_poly = polynomial_features.fit_transform(X_train)
+        X_test_poly = polynomial_features.transform(X_test)
+
+        # Train a linear regression model
+        model = cuLinearRegression()
+        model.fit(X_train_poly, y_train)
+
+        # Make predictions on the test data
+        y_pred = model.predict(X_test_poly)
+
+        # Calculate Mean Squared Error
+        mse = mean_squared_error(y_test, y_pred)
+        logging.info(f"Degree {degree}: Mean Squared Error: {mse}")
+
+        # Check if the current model's MSE is the best so far
+        if mse < best_mse:
+            best_mse = mse
+            best_degree = degree
+        else:
+            # If the MSE starts increasing, stop training further models
+            break
+
+    logging.info(f"Best degree: {best_degree}")
+    logging.info(f"Best MSE: {best_mse}")
+
+    # Create polynomial features with the best degree
+    polynomial_features = PolynomialFeatures(degree=best_degree)
+    X_train_poly = polynomial_features.fit_transform(X_train)
+    X_test_poly = polynomial_features.transform(X_test)
+
+    # Initialize Polynomial Regression model
+    poly_reg = cuLinearRegression()
 
     # Train model
-    svr.fit(X_train, y_train)
+    poly_reg.fit(X_train_poly, y_train)
     logging.info('Model trained.')
 
     # Predict on test data
-    y_pred = svr.predict(X_test)
+    y_pred = poly_reg.predict(X_test_poly)
 
     # Convert cuDF series to cupy array for further computation
     y_pred = cp.asarray(y_pred)
@@ -92,7 +133,7 @@ def main():
     logging.info(f'Mean Squared Error: {mse}')
 
     # Save trained model
-    joblib.dump(svr, model_file)
+    joblib.dump(poly_reg, model_file)
     logging.info(f'Model saved to {model_file}.')
 
     # Convert cuDF series to cupy array for plotting
@@ -162,7 +203,34 @@ def main():
     plt.savefig(plot_file)
     logging.info(f'Plot saved as {plot_file}.')
 
+    # Get the coefficients for each term in the polynomial regression equation
+    coefficients = poly_reg.coef_
+    equation = generate_equation(polynomial_features, coefficients)
+
+    # Save coefficients and equation to a CSV file
+    coefficients_df = pd.DataFrame(
+        {'Term': equation.keys(), 'Coefficient': equation.values()})
+    coefficients_df.to_csv(coefficients_file, index=False)
+    logging.info(f'Coefficients saved to {coefficients_file}.')
+
     logging.info('Finished script.')
+
+
+def generate_equation(polynomial_features, coefficients):
+    # Get the feature names from the polynomial features
+    feature_names = polynomial_features.get_feature_names_out()
+
+    # Remove the constant term (intercept) from the feature names
+    feature_names = feature_names[1:]
+
+    # Create a dictionary to store the equation
+    equation = {}
+
+    # Generate the equation by combining the feature names and coefficients
+    for feature, coefficient in zip(feature_names, coefficients):
+        equation[feature] = coefficient
+
+    return equation
 
 
 if __name__ == '__main__':
