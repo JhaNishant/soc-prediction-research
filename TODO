@@ -10,8 +10,7 @@ Done! Permutation Feature importance analysis: You can analyze the importance of
 
 # Time for ML
 
-1. Lasso Regression
-
+1. DONE! Lasso Regression
     Develop a script named lasso_regression.py.
     Implement the Lasso class from the Scikit-learn library.
     Leverage the CuPy library for GPU-accelerated computations.

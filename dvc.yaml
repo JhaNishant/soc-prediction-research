@@ -91,3 +91,16 @@ stages:
       - results/lasso_regression/lasso_regression_plot.png:
           cache: false
           
+  svm_regression:
+    cmd: >
+      time python src/machine_learning/svm_regression.py
+      data/imputed/imputed_data.csv.gz
+      models/svm_regression/svm_model.pkl
+      results/svm_regression/svm_regression_plot.png
+    deps:
+      - data/imputed/imputed_data.csv.gz
+      - src/machine_learning/svm_regression.py
+    outs:
+      - models/svm_regression/svm_model.pkl
+      - results/svm_regression/svm_regression_plot.png:
+          cache: false
