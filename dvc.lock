@@ -149,12 +149,12 @@ stages:
       size: 27554564
     - path: src/machine_learning/lasso_regression.py
       hash: md5
-      md5: b0ea27e60ec05ca548e27ff896772e34
-      size: 3569
+      md5: 836dfa814c230b7b73e733be7d175c7a
+      size: 5234
     outs:
     - path: models/lasso_regression/lr_model.pkl
       hash: md5
-      md5: 3e1c5874bb0ff22c98fe627f8ad4d7b6
+      md5: e091d79e1ab17c902d88624383dceeb5
       size: 405749
     - path: results/lasso_regression/lasso_coefficients.csv
       hash: md5
@@ -162,5 +162,5 @@ stages:
       size: 11192
     - path: results/lasso_regression/lasso_regression_plot.png
       hash: md5
-      md5: 8f5925cd0c7bd8ecc0a74e0be8c2021b
-      size: 48988
+      md5: 43f9676c742dab4567c703dff2d27b03
+      size: 213399
