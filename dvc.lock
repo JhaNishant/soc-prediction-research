@@ -174,14 +174,14 @@ stages:
       size: 27554564
     - path: src/machine_learning/svm_regression.py
       hash: md5
-      md5: 0c85d08e761738d437e8a994f7cb0422
-      size: 4440
+      md5: 20f4cb6ca0d68310b12b150b112c345b
+      size: 4616
     outs:
     - path: models/svm_regression/svm_model.pkl
       hash: md5
-      md5: 7efd7d25b49b4eea4e77498b31fac108
-      size: 69048480
+      md5: 1e1be5e875bfe8140caad70d318e0766
+      size: 68645952
     - path: results/svm_regression/svm_regression_plot.png
       hash: md5
-      md5: 2a9c72ca0485b2bf24b7deffd9d6b197
-      size: 53711
+      md5: c19c72b713f45c50e763faf11b1eb24e
+      size: 151748
