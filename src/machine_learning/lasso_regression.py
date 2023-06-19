@@ -96,7 +96,7 @@ def main():
 
     # Save coefficients
     coeff_df = pd.DataFrame(
-        {'Coefficient': lasso.coef_.to_array()}, index=X.columns)
+        {'Coefficient': lasso.coef_.to_pandas().values}, index=X.columns)
     coeff_df.to_csv(coeff_file)
     logging.info(f'Coefficients saved to {coeff_file}.')
 
