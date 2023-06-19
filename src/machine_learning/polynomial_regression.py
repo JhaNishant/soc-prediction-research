@@ -76,42 +76,8 @@ def main():
     X_train, X_test, y_train, y_test = cuml_train_test_split(
         X, y, test_size=0.2, random_state=42)
 
-    best_degree = None
-    best_mse = np.inf
-
-    # Set the maximum degree of the polynomial features
-    max_degree = 10
-
-    for degree in range(2, max_degree + 1):
-        # Create polynomial features
-        polynomial_features = PolynomialFeatures(degree=degree)
-        X_train_poly = polynomial_features.fit_transform(X_train)
-        X_test_poly = polynomial_features.transform(X_test)
-
-        # Train a linear regression model
-        model = cuLinearRegression()
-        model.fit(X_train_poly, y_train)
-
-        # Make predictions on the test data
-        y_pred = model.predict(X_test_poly)
-
-        # Calculate Mean Squared Error
-        mse = mean_squared_error(y_test, y_pred)
-        logging.info(f"Degree {degree}: Mean Squared Error: {mse}")
-
-        # Check if the current model's MSE is the best so far
-        if mse < best_mse:
-            best_mse = mse
-            best_degree = degree
-        else:
-            # If the MSE starts increasing, stop training further models
-            break
-
-    logging.info(f"Best degree: {best_degree}")
-    logging.info(f"Best MSE: {best_mse}")
-
-    # Create polynomial features with the best degree
-    polynomial_features = PolynomialFeatures(degree=best_degree)
+    # Create polynomial features with degree hyperparameter
+    polynomial_features = PolynomialFeatures(degree=3)
     X_train_poly = polynomial_features.fit_transform(X_train)
     X_test_poly = polynomial_features.transform(X_test)
 
