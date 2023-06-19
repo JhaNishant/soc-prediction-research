@@ -12,6 +12,7 @@ from cuml import SVR as cuSVR
 from cuml.metrics.regression import (mean_absolute_error, mean_squared_error,
                                      r2_score)
 from cuml.model_selection import train_test_split as cuml_train_test_split
+from cuml.preprocessing import StandardScaler
 
 
 def main():
@@ -67,6 +68,11 @@ def main():
     # Split data into training and test sets
     X_train, X_test, y_train, y_test = cuml_train_test_split(
         X, y, test_size=0.2, random_state=42)
+
+    # Scale data
+    scaler = StandardScaler()
+    X_train = scaler.fit_transform(X_train)
+    X_test = scaler.transform(X_test)
 
     # Initialize Support Vector Regression model
     svr = cuSVR(kernel='rbf', C=1e3, gamma=0.2)
