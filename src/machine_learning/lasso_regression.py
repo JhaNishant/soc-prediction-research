@@ -94,11 +94,9 @@ def main():
     joblib.dump(lasso, model_file)
     logging.info(f'Model saved to {model_file}.')
 
-    logging.info(f'Coefficients: {lasso.coef_}')
-
     # Save coefficients
-    coeff_df = cudf.DataFrame(
-        {'Coefficient': lasso.coef_}, index=X.columns).to_pandas()
+    coeff_df = pd.DataFrame(
+        {'Coefficient': lasso.coef_}, index=X.columns)
     coeff_df.to_csv(coeff_file)
     logging.info(f'Coefficients saved to {coeff_file}.')
 
