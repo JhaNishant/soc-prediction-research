@@ -142,16 +142,6 @@ def main():
     ax[1].set_ylabel('Residuals', fontsize=12)
     ax[1].set_title('Residual Plot', fontsize=14)
 
-    # Histogram of residuals
-    sns.histplot(
-        residuals,
-        ax=ax[2],
-        kde=True,
-        color='skyblue',
-        edgecolor='black',
-        linewidth=1)
-    ax[2].set_title('Distribution of Residuals', fontsize=14)
-
     # Calculate and display regression metrics
     mae = mean_absolute_error(y_test, y_pred)
     mse = mean_squared_error(y_test, y_pred)
@@ -173,13 +163,6 @@ def main():
         0.95,
         metrics_text,
         transform=ax[1].transAxes,
-        verticalalignment='top',
-        bbox=props)
-    ax[2].text(
-        0.05,
-        0.95,
-        metrics_text,
-        transform=ax[2].transAxes,
         verticalalignment='top',
         bbox=props)
 
