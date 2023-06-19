@@ -45,12 +45,19 @@ def main():
         type=str,
         help="Path to the output file for the prediction plot."
     )
+    # Output coefficients file path
+    parser.add_argument(
+        "coefficients_file",
+        type=str,
+        help="Path to the output file for the coefficients."
+    )
 
     args = parser.parse_args()
 
     input_file = args.input_file
     model_file = args.model_file
     plot_file = args.plot_file
+    coefficients_file = args.coefficients_file
 
     # Load dataset
     data = pd.read_csv(input_file)
@@ -196,7 +203,34 @@ def main():
     plt.savefig(plot_file)
     logging.info(f'Plot saved as {plot_file}.')
 
+    # Get the coefficients for each term in the polynomial regression equation
+    coefficients = poly_reg.coef_
+    equation = generate_equation(polynomial_features, coefficients)
+
+    # Save coefficients and equation to a CSV file
+    coefficients_df = pd.DataFrame(
+        {'Term': equation.keys(), 'Coefficient': equation.values()})
+    coefficients_df.to_csv(coefficients_file, index=False)
+    logging.info(f'Coefficients saved to {coefficients_file}.')
+
     logging.info('Finished script.')
+
+
+def generate_equation(polynomial_features, coefficients):
+    # Get the feature names from the polynomial features
+    feature_names = polynomial_features.get_feature_names_out()
+
+    # Remove the constant term (intercept) from the feature names
+    feature_names = feature_names[1:]
+
+    # Create a dictionary to store the equation
+    equation = {}
+
+    # Generate the equation by combining the feature names and coefficients
+    for feature, coefficient in zip(feature_names, coefficients):
+        equation[feature] = coefficient
+
+    return equation
 
 
 if __name__ == '__main__':
