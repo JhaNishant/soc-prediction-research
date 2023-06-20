@@ -75,7 +75,7 @@ def main():
         X, y, test_size=0.2, random_state=42)
 
     # Initialize LightGBM Regression model
-    lgb_reg = lgb.LGBMRegressor
+    lgb_reg = lgb.LGBMRegressor()
 
     # Convert cuDF dataframes to numpy arrays for LightGBM compatibility
     X_train_np = X_train.to_pandas().values
