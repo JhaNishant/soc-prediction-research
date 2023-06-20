@@ -74,8 +74,8 @@ def main():
     X_train, X_test, y_train, y_test = cuml_train_test_split(
         X, y, test_size=0.2, random_state=42)
 
-    # Initialize LightGBM Regression model with GPU usage
-    lgb_reg = lgb.LGBMRegressor(device='gpu')
+    # Initialize LightGBM Regression model
+    lgb_reg = lgb.LGBMRegressor
 
     # Convert cuDF dataframes to numpy arrays for LightGBM compatibility
     X_train_np = X_train.to_pandas().values
