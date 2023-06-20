@@ -11,7 +11,6 @@ import seaborn as sns
 from cuml.metrics.regression import (mean_absolute_error, mean_squared_error,
                                      r2_score)
 from cuml.model_selection import train_test_split as cuml_train_test_split
-from cuml.preprocessing import PolynomialFeatures
 
 
 def main():
@@ -75,24 +74,19 @@ def main():
     X_train, X_test, y_train, y_test = cuml_train_test_split(
         X, y, test_size=0.2, random_state=42)
 
-    # Create polynomial features with degree hyperparameter
-    polynomial_features = PolynomialFeatures(degree=2)
-    X_train_poly = polynomial_features.fit_transform(X_train)
-    X_test_poly = polynomial_features.transform(X_test)
-
-    # Initialize LightGBM Regression model
-    lgb_reg = lgb.LGBMRegressor()
+    # Initialize LightGBM Regression model with GPU usage
+    lgb_reg = lgb.LGBMRegressor(device='gpu')
 
     # Convert cuDF dataframes to numpy arrays for LightGBM compatibility
-    X_train_np = X_train_poly.to_pandas().values
+    X_train_np = X_train.to_pandas().values
     y_train_np = y_train.to_pandas().values.ravel()
-    X_test_np = X_test_poly.to_pandas().values
 
     # Train LightGBM model
     lgb_reg.fit(X_train_np, y_train_np)
     logging.info('Model trained.')
 
     # Predict on test data
+    X_test_np = X_test.to_pandas().values
     y_pred = lgb_reg.predict(X_test_np)
 
     # Calculate Mean Squared Error
@@ -175,7 +169,7 @@ def main():
 
     # Save feature importances to a CSV file
     importances_df = pd.DataFrame({
-        'Feature': polynomial_features.get_feature_names_out()[1:],
+        'Feature': X.columns,
         'Importance': importances})
     importances_df.to_csv(importances_file, index=False)
     logging.info(f'Feature importances saved to {importances_file}.')
