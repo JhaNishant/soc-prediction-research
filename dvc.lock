@@ -11,12 +11,75 @@ stages:
       hash: md5
       md5: 13430d1580633ab56d80cea897ed91ff
       size: 1194
-      isexec: true
     outs:
     - path: data/preprocessed/cleaned_data.csv.gz
       hash: md5
-      md5: f9076855ef9dd175220edc564d7795c7
+      md5: a6ef25a18ea7ada490c66650d3f8f35e
       size: 27383059
+  data_imputation:
+    cmd: "time python src/preprocessing/data_imputation.py data/preprocessed/cleaned_data.csv.gz\
+      \ data/imputed/imputed_data.csv.gz\n"
+    deps:
+    - path: data/preprocessed/cleaned_data.csv.gz
+      hash: md5
+      md5: a6ef25a18ea7ada490c66650d3f8f35e
+      size: 27383059
+    - path: src/preprocessing/data_imputation.py
+      hash: md5
+      md5: 49c7dead8ba2180e2faa10e339b87be4
+      size: 2225
+    outs:
+    - path: data/imputed/imputed_data.csv.gz
+      hash: md5
+      md5: 76b91a7a5fa94271729fe1862c0c6a81
+      size: 27554564
+  lasso_regression:
+    cmd: "time python src/machine_learning/lasso_regression.py data/imputed/imputed_data.csv.gz\
+      \ models/lasso_regression/lr_model.pkl results/lasso_regression/lasso_coefficients.csv\
+      \ results/lasso_regression/lasso_regression_plot.png\n"
+    deps:
+    - path: data/imputed/imputed_data.csv.gz
+      hash: md5
+      md5: 76b91a7a5fa94271729fe1862c0c6a81
+      size: 27554564
+    - path: src/machine_learning/lasso_regression.py
+      hash: md5
+      md5: 8748750802f370cdc47fae5560099cf2
+      size: 4842
+    outs:
+    - path: models/lasso_regression/lr_model.pkl
+      hash: md5
+      md5: e86ea9d625e24f1451206460c3d69394
+      size: 405749
+    - path: results/lasso_regression/lasso_coefficients.csv
+      hash: md5
+      md5: 62cc0da5c15d2d548c346280bb081288
+      size: 11190
+    - path: results/lasso_regression/lasso_regression_plot.png
+      hash: md5
+      md5: d8e144be1d3b94730f1970c3ff89d0a6
+      size: 190784
+  svm_regression:
+    cmd: "time python src/machine_learning/svm_regression.py data/imputed/imputed_data.csv.gz\
+      \ models/svm_regression/svm_model.pkl results/svm_regression/svm_regression_plot.png\n"
+    deps:
+    - path: data/imputed/imputed_data.csv.gz
+      hash: md5
+      md5: 76b91a7a5fa94271729fe1862c0c6a81
+      size: 27554564
+    - path: src/machine_learning/svm_regression.py
+      hash: md5
+      md5: 20f4cb6ca0d68310b12b150b112c345b
+      size: 4616
+    outs:
+    - path: models/svm_regression/svm_model.pkl
+      hash: md5
+      md5: ab2ca7cb6756d6ed3cb026734efc24c4
+      size: 68645952
+    - path: results/svm_regression/svm_regression_plot.png
+      hash: md5
+      md5: c19c72b713f45c50e763faf11b1eb24e
+      size: 151748
   correlation_analysis:
     cmd: "time python src/analysing/correlation_analysis.py data/preprocessed/cleaned_data.csv.gz\
       \ results/correlation_analysis/soc_percent_correlations.csv results/correlation_analysis/correlation_bar_graph.png\
@@ -24,7 +87,7 @@ stages:
     deps:
     - path: data/preprocessed/cleaned_data.csv.gz
       hash: md5
-      md5: f9076855ef9dd175220edc564d7795c7
+      md5: a6ef25a18ea7ada490c66650d3f8f35e
       size: 27383059
     - path: src/analysing/correlation_analysis.py
       hash: md5
@@ -43,24 +106,6 @@ stages:
       hash: md5
       md5: c13ecf37b0d0ad5758e705df5e62443e
       size: 12263
-  data_imputation:
-    cmd: "time python src/preprocessing/data_imputation.py data/preprocessed/cleaned_data.csv.gz\
-      \ data/imputed/imputed_data.csv.gz\n"
-    deps:
-    - path: data/preprocessed/cleaned_data.csv.gz
-      hash: md5
-      md5: f9076855ef9dd175220edc564d7795c7
-      size: 27383059
-    - path: src/preprocessing/data_imputation.py
-      hash: md5
-      md5: 49c7dead8ba2180e2faa10e339b87be4
-      size: 2225
-      isexec: true
-    outs:
-    - path: data/imputed/imputed_data.csv.gz
-      hash: md5
-      md5: c53e3efa487bc3a52bb285d0482653f6
-      size: 27554564
   regression_analysis:
     cmd: "time python src/analysing/regression_analysis.py data/imputed/imputed_data.csv.gz\
       \ results/regression_analysis/predictions.csv results/regression_analysis/regression_coefficients.csv\
@@ -69,7 +114,7 @@ stages:
     deps:
     - path: data/imputed/imputed_data.csv.gz
       hash: md5
-      md5: c53e3efa487bc3a52bb285d0482653f6
+      md5: 76b91a7a5fa94271729fe1862c0c6a81
       size: 27554564
     - path: src/analysing/regression_analysis.py
       hash: md5
@@ -86,8 +131,8 @@ stages:
       size: 105695
     - path: results/regression_analysis/predictions.csv
       hash: md5
-      md5: 0ae16f6c3858287f415305a0a1103fff
-      size: 275538
+      md5: 587a943aa2a2ca09049fe4c33beacdbc
+      size: 275332
     - path: results/regression_analysis/regression_coefficients.csv
       hash: md5
       md5: c59708a4107d0a225882b149f94b2604
@@ -103,7 +148,7 @@ stages:
     deps:
     - path: data/imputed/imputed_data.csv.gz
       hash: md5
-      md5: c53e3efa487bc3a52bb285d0482653f6
+      md5: 76b91a7a5fa94271729fe1862c0c6a81
       size: 27554564
     - path: models/regression_analysis/rf_model.pkl
       hash: md5
@@ -116,77 +161,12 @@ stages:
     outs:
     - path: results/permutation_importance_analysis/permutation_importance.csv
       hash: md5
-      md5: 892fb1e914fd558cfcd177acf20d54fb
-      size: 16347
+      md5: cb4f291362b4f20af866c23909e36968
+      size: 16355
     - path: results/permutation_importance_analysis/permutation_importance.png
       hash: md5
       md5: ef75f9140fd4cd1f7064ee34628f8197
       size: 58492
-  clustering_analysis:
-    cmd: "python src/analysing/clustering_analysis.py data/imputed/imputed_data.csv.gz\
-      \ results/clustering_analysis\n"
-    deps:
-    - path: data/imputed/imputed_data.csv.gz
-      hash: md5
-      md5: 5fdaa4ad8e9da3d424767e7087526e24
-      size: 27567121
-    - path: src/analysing/clustering_analysis.py
-      hash: md5
-      md5: 8856a0f4510cc36ab5801ff43cb300b0
-      size: 3497
-    outs:
-    - path: results/clustering_analysis
-      hash: md5
-      md5: 14cdb57eab9d4b4feed20343f1e2d631.dir
-      size: 88836323
-      nfiles: 11
-  lasso_regression:
-    cmd: "time python src/machine_learning/lasso_regression.py data/imputed/imputed_data.csv.gz\
-      \ models/lasso_regression/lr_model.pkl results/lasso_regression/lasso_coefficients.csv\
-      \ results/lasso_regression/lasso_regression_plot.png\n"
-    deps:
-    - path: data/imputed/imputed_data.csv.gz
-      hash: md5
-      md5: c53e3efa487bc3a52bb285d0482653f6
-      size: 27554564
-    - path: src/machine_learning/lasso_regression.py
-      hash: md5
-      md5: 8748750802f370cdc47fae5560099cf2
-      size: 4842
-    outs:
-    - path: models/lasso_regression/lr_model.pkl
-      hash: md5
-      md5: 32e250d38df10183ea47d6c5093fcc12
-      size: 405749
-    - path: results/lasso_regression/lasso_coefficients.csv
-      hash: md5
-      md5: 62cc0da5c15d2d548c346280bb081288
-      size: 11190
-    - path: results/lasso_regression/lasso_regression_plot.png
-      hash: md5
-      md5: d8e144be1d3b94730f1970c3ff89d0a6
-      size: 190784
-  svm_regression:
-    cmd: "time python src/machine_learning/svm_regression.py data/imputed/imputed_data.csv.gz\
-      \ models/svm_regression/svm_model.pkl results/svm_regression/svm_regression_plot.png\n"
-    deps:
-    - path: data/imputed/imputed_data.csv.gz
-      hash: md5
-      md5: c53e3efa487bc3a52bb285d0482653f6
-      size: 27554564
-    - path: src/machine_learning/svm_regression.py
-      hash: md5
-      md5: 20f4cb6ca0d68310b12b150b112c345b
-      size: 4616
-    outs:
-    - path: models/svm_regression/svm_model.pkl
-      hash: md5
-      md5: 01ea8b25f972e114d4f8020ec9ef3c27
-      size: 68645952
-    - path: results/svm_regression/svm_regression_plot.png
-      hash: md5
-      md5: c19c72b713f45c50e763faf11b1eb24e
-      size: 151748
   lgbm_regression:
     cmd: "time python src/machine_learning/lgbm_regression.py data/imputed/imputed_data.csv.gz\
       \ models/lgbm_regression/lgbm_model.pkl results/lgbm_regression/lgbm_regression_plot.png\
@@ -194,7 +174,7 @@ stages:
     deps:
     - path: data/imputed/imputed_data.csv.gz
       hash: md5
-      md5: c53e3efa487bc3a52bb285d0482653f6
+      md5: 76b91a7a5fa94271729fe1862c0c6a81
       size: 27554564
     - path: src/machine_learning/lgbm_regression.py
       hash: md5
