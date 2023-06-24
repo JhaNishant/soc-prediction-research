@@ -104,3 +104,19 @@ stages:
       - models/svm_regression/svm_model.pkl
       - results/svm_regression/svm_regression_plot.png:
           cache: false
+
+  lgbm_regression:
+    cmd: >
+      time python src/machine_learning/lgbm_regression.py
+      data/imputed/imputed_data.csv.gz
+      models/lgbm_regression/lgbm_model.pkl
+      results/lgbm_regression/lgbm_regression_plot.png
+      results/lgbm_regression/lgbm_importance_features.csv
+    deps:
+      - data/imputed/imputed_data.csv.gz
+      - src/machine_learning/lgbm_regression.py
+    outs:
+      - models/lgbm_regression/lgbm_model.pkl
+      - results/lgbm_regression/lgbm_regression_plot.png:
+          cache: false
+      - results/lgbm_regression/lgbm_importance_features.csv
