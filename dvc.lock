@@ -193,3 +193,24 @@ stages:
       hash: md5
       md5: 6be1f7bfc85822efbc0b83a4965ed7dc
       size: 237419
+  mlp_regression:
+    cmd: "time python src/deep_learning/mlp_regression.py data/imputed/imputed_data.csv.gz\
+      \ results/mlp_regression/mlp_regression_plot.png models/mlp_regression/mlp_model.h5\n"
+    deps:
+    - path: data/imputed/imputed_data.csv.gz
+      hash: md5
+      md5: 76b91a7a5fa94271729fe1862c0c6a81
+      size: 27554564
+    - path: src/deep_learning/mlp_regression.py
+      hash: md5
+      md5: 5b5ea7b2e04d653eea1cb9bb70abb8a8
+      size: 4844
+    outs:
+    - path: models/mlp_regression/mlp_model.h5
+      hash: md5
+      md5: 3bc9099368844e6adeae261efe42f424
+      size: 188984
+    - path: results/mlp_regression/mlp_regression_plot.png
+      hash: md5
+      md5: 927ca26287ab76ded5d015b1101c11ad
+      size: 255730
