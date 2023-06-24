@@ -10,19 +10,17 @@ Done! Permutation Feature importance analysis: You can analyze the importance of
 
 # Time for ML
 
-1. DONE! Lasso Regression
-    Develop a script named lasso_regression.py.
-    Implement the Lasso class from the Scikit-learn library.
-    Leverage the CuPy library for GPU-accelerated computations.
+Done! Lasso Regression
 
-2. Support Vector Machines (SVM)
+Done! Support Vector Machines (SVM)
 
-    Develop a script named svm_regression.py.
-    Implement the SVR class from the Scikit-learn library.
-    Integrate the ThunderSVM library for GPU-accelerated SVM training.
+Done! LightGBM Regression
 
-3. Polynomial Regression
-
-    Develop a script named polynomial_regression.py.
-    Implement the PolynomialFeatures class from the Scikit-learn library.
-    Utilize the CuPy library for GPU-accelerated polynomial computations.
+Multilayer Perceptron (MLP)
+MLPs, also known as Vanilla Neural Networks, are particularly suited for tabular data. They consist of at least three layers of nodes: an input layer, a hidden layer, and an output layer. MLPs can learn non-linear models, making them a flexible tool for many prediction tasks.
+Deep Feedforward Networks (DFFNs)
+DFFNs are a generalization of MLPs and are effective for tabular data. They are feedforward because information only travels forward in the network - from the input nodes, through the hidden nodes, and to the output nodes.
+Transformer-Based Models
+These architectures, such as TabNet and TabTransformer, rely on attention mechanisms. They have shown good performance on tabular data as they can capture complex interactions between features.
+Hybrid Models
+These models, such as Wide & Deep, fuse classical machine learning approaches with neural networks. They can handle high-dimensional sparse data and are designed to memorize and generalize well from the input features.
