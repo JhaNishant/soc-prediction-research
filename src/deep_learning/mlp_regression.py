@@ -5,9 +5,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+import tensorflow as tf
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import Adam
@@ -28,11 +30,6 @@ def main():
         "input_file",
         type=str,
         help="Path to the input dataset file.",
-    )
-    parser.add_argument(
-        "output_file_predictions",
-        type=str,
-        help="Path to the output file for the predictions.",
     )
     parser.add_argument(
         "plot_file",
@@ -69,6 +66,9 @@ def main():
     X_train = scaler.fit_transform(X_train)
     X_test = scaler.transform(X_test)
 
+    # Set the random seed for TensorFlow
+    tf.random.set_seed(42)
+
     # Define the MLP model
     model = Sequential()
     model.add(
@@ -79,11 +79,27 @@ def main():
     model.add(Dense(32, activation='relu'))  # Hidden layer
     model.add(Dense(1))  # Output layer
 
+    # Print the model summary
+    model.summary()
+
     # Compile the MLP model
     model.compile(loss='mean_squared_error', optimizer=Adam())
 
-    # Train the model
-    model.fit(X_train, y_train, epochs=50, batch_size=32, verbose=2)
+    # Define early stopping
+    early_stop = EarlyStopping(
+        monitor='val_loss',
+        patience=15,
+        restore_best_weights=True)
+
+    # Train the model with validation split and early stopping
+    model.fit(
+        X_train,
+        y_train,
+        validation_split=0.2,
+        epochs=100,
+        batch_size=32,
+        callbacks=[early_stop],
+        verbose=2)
 
     # Save the trained model to a file
     model.save(mlp_model)

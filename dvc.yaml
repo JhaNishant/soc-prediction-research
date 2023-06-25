@@ -120,3 +120,17 @@ stages:
       - results/lgbm_regression/lgbm_regression_plot.png:
           cache: false
       - results/lgbm_regression/lgbm_importance_features.csv
+
+  mlp_regression:
+    cmd: >
+      time python src/deep_learning/mlp_regression.py
+      data/imputed/imputed_data.csv.gz
+      results/mlp_regression/mlp_regression_plot.png
+      models/mlp_regression/mlp_model.h5
+    deps:
+      - data/imputed/imputed_data.csv.gz
+      - src/deep_learning/mlp_regression.py
+    outs:
+      - models/mlp_regression/mlp_model.h5
+      - results/mlp_regression/mlp_regression_plot.png:
+          cache: false
