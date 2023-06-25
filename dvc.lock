@@ -214,3 +214,24 @@ stages:
       hash: md5
       md5: 99fbfdf40b435bf2874556dcc0b97ccf
       size: 220198
+  dffn_regression:
+    cmd: "time python src/deep_learning/dffn_regression.py data/imputed/imputed_data.csv.gz\
+      \ results/dffn_regression/dffn_regression_plot.png models/dffn_regression/dffn_model.h5\n"
+    deps:
+    - path: data/imputed/imputed_data.csv.gz
+      hash: md5
+      md5: a5d59c001c63d16af60ca38fa47a7d6c
+      size: 27554564
+    - path: src/deep_learning/dffn_regression.py
+      hash: md5
+      md5: 3bb3ff219626f5d6cc15d3f711c57515
+      size: 4931
+    outs:
+    - path: models/dffn_regression/dffn_model.h5
+      hash: md5
+      md5: 1df0240c3a12cce67a0ac63a11779843
+      size: 329936
+    - path: results/dffn_regression/dffn_regression_plot.png
+      hash: md5
+      md5: 3004ba84b933d06f4ceb81d4856fea12
+      size: 250323

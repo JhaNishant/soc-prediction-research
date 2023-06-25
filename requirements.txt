@@ -8,3 +8,4 @@ cupy-cuda11x
 cudf-cu11
 cuml-cu11
 cuda-python==11.8.0
+tabtransformertf

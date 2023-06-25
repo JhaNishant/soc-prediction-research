@@ -134,3 +134,31 @@ stages:
       - models/mlp_regression/mlp_model.h5
       - results/mlp_regression/mlp_regression_plot.png:
           cache: false
+
+  dffn_regression:
+    cmd: >
+      time python src/deep_learning/dffn_regression.py
+      data/imputed/imputed_data.csv.gz
+      results/dffn_regression/dffn_regression_plot.png
+      models/dffn_regression/dffn_model.h5
+    deps:
+      - data/imputed/imputed_data.csv.gz
+      - src/deep_learning/dffn_regression.py
+    outs:
+      - models/dffn_regression/dffn_model.h5
+      - results/dffn_regression/dffn_regression_plot.png:
+          cache: false
+
+  transformer_regression.py:
+    cmd: >
+      time python src/deep_learning/transformer_regression.py
+      data/imputed/imputed_data.csv.gz
+      results/transformer_regression/transformer_regression_plot.png
+      models/transformer_regression/transformer_model.h5
+    deps:
+      - data/imputed/imputed_data.csv.gz
+      - src/deep_learning/transformer_regression.py
+    outs:
+      - models/transformer_regression/transformer_model.h5
+      - results/transformer_regression/transformer_regression_plot.png:
+          cache: false
