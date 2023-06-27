@@ -1,9 +1,11 @@
 # SOC-Prediction-Research
 
 ## Overview
+
 SOC-Prediction-Research is a dissertation project for MSc Data Analytics and Information Systems Management at Arden University, Berlin. The project focuses on the prediction of soil organic carbon (SOC) for soil samples taken between 2009 and 2018 for the LUCAS project of the European Union through geospatial modelling.
 
 ## Project Structure
+
 - `.dvc`: Directory related to DVC (Data Version Control).
 - `.github/workflows`: Contains files for CI/CD (Continuous Integration/Continuous Deployment) setup.
 - `.vscode`: VSCode-related settings.
@@ -22,6 +24,7 @@ SOC-Prediction-Research is a dissertation project for MSc Data Analytics and Inf
 Other configuration and setup files include `.DS_Store`, `.dvcignore`, `.gitignore`, `.pre-commit-config.yaml`, `LICENSE`, and `README.md`.
 
 ## Getting Started
+
 This project uses Docker for containerization. Please ensure you have Docker installed on your machine.
 
 1. Clone this repository.
@@ -31,10 +34,13 @@ This project uses Docker for containerization. Please ensure you have Docker ins
 Please refer to the `requirements.txt` and `conda-requirements.txt` for the necessary Python and Conda dependencies.
 
 ## Usage
+
 Please refer to the source code in the `src` directory to understand how to use the models and data.
 
 ## License
+
 This project is licensed under the terms of the MIT license.
 
 ## Note
+
 While the data used in this project is proprietary and not publicly available, the code can be used by the public.
