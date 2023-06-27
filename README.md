@@ -18,8 +18,6 @@ SOC-Prediction-Research is a dissertation project for MSc Data Analytics and Inf
 - `dvc.lock` and `dvc.yaml`: DVC-related files.
 - `requirements.txt`: Contains the python requirements needed for this project.
 - `Dockerfile`: Contains the setup for Docker.
-- `future_tasks.txt`: Contains a list of future tasks and improvements for this project.
-- `research.txt`: Contains research notes relevant to this project.
 
 Other configuration and setup files include `.DS_Store`, `.dvcignore`, `.gitignore`, `.pre-commit-config.yaml`, `LICENSE`, and `README.md`.
 
