@@ -10,8 +10,8 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from tensorflow.keras.callbacks import EarlyStopping
-from tensorflow.keras.layers import Dense
-from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Input, concatenate
+from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 
 
@@ -24,7 +24,7 @@ def main():
     logging.info('Starting script...')
 
     parser = argparse.ArgumentParser(
-        description="Perform regression analysis and generate relevant plots."
+        description="Perform regression analysis using a Wide & Deep model."
     )
     parser.add_argument(
         "input_file",
@@ -37,16 +37,16 @@ def main():
         help="Path to the output file for the predicted vs actual plot.",
     )
     parser.add_argument(
-        "mlp_model",
+        "wide_deep_model",
         type=str,
-        help="Path to the output file for the trained MLP model.",
+        help="Path to the output file for the trained Wide & Deep model.",
     )
 
     args = parser.parse_args()
 
     input_file = args.input_file
     plot_file = args.plot_file
-    mlp_model = args.mlp_model
+    wide_deep_model = args.wide_deep_model
 
     # Load the dataset
     data = pd.read_csv(input_file)
@@ -66,24 +66,36 @@ def main():
     X_train = scaler.fit_transform(X_train)
     X_test = scaler.transform(X_test)
 
-    # Set the random seed for TensorFlow
+    # Set tensorflow random seed
     tf.random.set_seed(42)
 
-    # Define the MLP model
-    model = Sequential()
-    model.add(
-        Dense(
-            64,
-            input_dim=X_train.shape[1],
-            activation='relu'))  # Input layer
-    model.add(Dense(32, activation='relu'))  # Hidden layer
-    model.add(Dense(1))  # Output layer
+    # Define the wide part of the model (linear model)
+    wide_input = Input(shape=(X_train.shape[1],), name='wide_input')
+    wide_output = Dense(1, activation='linear', name='wide_output')(wide_input)
+
+    # Define the deep part of the model (neural network)
+    deep_input = Input(shape=(X_train.shape[1],), name='deep_input')
+    deep_output = Dense(30, activation='relu')(deep_input)
+    deep_output = Dense(30, activation='relu')(deep_output)
+    deep_output = Dense(
+        1,
+        activation='linear',
+        name='deep_output')(deep_output)
+
+    # Combine wide and deep parts
+    merged = concatenate([wide_output, deep_output])
+
+    # Output layer
+    output = Dense(1, activation='linear', name='main_output')(merged)
+
+    # Define the model
+    model = Model(inputs=[wide_input, deep_input], outputs=output)
+
+    # Compile the model
+    model.compile(loss='mean_squared_error', optimizer=Adam())
 
     # Print the model summary
     model.summary()
-
-    # Compile the MLP model
-    model.compile(loss='mean_squared_error', optimizer=Adam())
 
     # Define early stopping
     early_stop = EarlyStopping(
@@ -91,22 +103,22 @@ def main():
         patience=15,
         restore_best_weights=True)
 
-    # Train the model with validation split and early stopping
+    # Train the model
     model.fit(
-        X_train,
+        [X_train, X_train],
         y_train,
-        validation_split=0.2,
+        validation_data=([X_test, X_test], y_test),
         epochs=100,
         batch_size=32,
         callbacks=[early_stop],
         verbose=2)
 
     # Save the trained model to a file
-    model.save(mlp_model)
-    logging.info(f'MLP model saved to {mlp_model}.')
+    model.save(wide_deep_model)
+    logging.info(f'Wide & Deep model saved to {wide_deep_model}.')
 
     # Use the model to make predictions on the test data
-    y_pred = model.predict(X_test).flatten()
+    y_pred = model.predict([X_test, X_test]).flatten()
 
     # Actual vs Predicted plot
     fig, ax = plt.subplots(1, 2, figsize=(14, 6))

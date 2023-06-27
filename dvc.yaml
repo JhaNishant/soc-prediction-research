@@ -1,9 +1,10 @@
 stages:
   data_cleaning:
     cmd: > 
-      time python src/preprocessing/data_cleaning.py
+      (time python src/preprocessing/data_cleaning.py
       data/raw/lucas.csv.gz
-      data/preprocessed/cleaned_data.csv.gz
+      data/preprocessed/cleaned_data.csv.gz)
+      |& tee logs/data_cleaning.log
     deps:
       - data/raw/lucas.csv.gz
       - src/preprocessing/data_cleaning.py
@@ -12,11 +13,12 @@ stages:
 
   correlation_analysis:
     cmd: >
-      time python src/analysing/correlation_analysis.py
+      (time python src/analysing/correlation_analysis.py
       data/preprocessed/cleaned_data.csv.gz
       results/correlation_analysis/soc_percent_correlations.csv
       results/correlation_analysis/correlation_bar_graph.png
-      results/correlation_analysis/scatterplot_matrix.png
+      results/correlation_analysis/scatterplot_matrix.png)
+      |& tee logs/correlation_analysis.log
     deps:
       - data/preprocessed/cleaned_data.csv.gz
       - src/analysing/correlation_analysis.py
@@ -29,9 +31,10 @@ stages:
 
   data_imputation:
     cmd: > 
-      time python src/preprocessing/data_imputation.py
+      (time python src/preprocessing/data_imputation.py
       data/preprocessed/cleaned_data.csv.gz
-      data/imputed/imputed_data.csv.gz
+      data/imputed/imputed_data.csv.gz)
+      |& tee logs/data_imputation.log
     deps:
       - data/preprocessed/cleaned_data.csv.gz
       - src/preprocessing/data_imputation.py
@@ -40,13 +43,14 @@ stages:
 
   regression_analysis:
     cmd: >
-      time python src/analysing/regression_analysis.py
+      (time python src/analysing/regression_analysis.py
       data/imputed/imputed_data.csv.gz
       results/regression_analysis/predictions.csv
       results/regression_analysis/regression_coefficients.csv
       results/regression_analysis/predicted_vs_actual_plot.png
       results/regression_analysis/regression_plot.png
-      models/regression_analysis/rf_model.pkl
+      models/regression_analysis/rf_model.pkl)
+      |& tee logs/regression_analysis.log
     deps:
       - data/imputed/imputed_data.csv.gz
       - src/analysing/regression_analysis.py
@@ -61,11 +65,12 @@ stages:
   
   permutation_importance:
     cmd: > 
-      time python src/analysing/permutation_importance_analysis.py
+      (time python src/analysing/permutation_importance_analysis.py
       data/imputed/imputed_data.csv.gz
       results/permutation_importance_analysis/permutation_importance.csv
       results/permutation_importance_analysis/permutation_importance.png 
-      models/regression_analysis/rf_model.pkl
+      models/regression_analysis/rf_model.pkl)
+      |& tee logs/permutation_importance_analysis.log
     deps:
       - src/analysing/permutation_importance_analysis.py
       - data/imputed/imputed_data.csv.gz
@@ -77,11 +82,12 @@ stages:
 
   lasso_regression:
     cmd: >
-      time python src/machine_learning/lasso_regression.py
+      (time python src/machine_learning/lasso_regression.py
       data/imputed/imputed_data.csv.gz
       models/lasso_regression/lr_model.pkl
       results/lasso_regression/lasso_coefficients.csv
-      results/lasso_regression/lasso_regression_plot.png
+      results/lasso_regression/lasso_regression_plot.png)
+      |& tee logs/lasso_regression.log
     deps:
       - data/imputed/imputed_data.csv.gz
       - src/machine_learning/lasso_regression.py
@@ -93,10 +99,11 @@ stages:
           
   svm_regression:
     cmd: >
-      time python src/machine_learning/svm_regression.py
+      (time python src/machine_learning/svm_regression.py
       data/imputed/imputed_data.csv.gz
       models/svm_regression/svm_model.pkl
-      results/svm_regression/svm_regression_plot.png
+      results/svm_regression/svm_regression_plot.png)
+      |& tee logs/svm_regression.log
     deps:
       - data/imputed/imputed_data.csv.gz
       - src/machine_learning/svm_regression.py
@@ -107,11 +114,12 @@ stages:
 
   lgbm_regression:
     cmd: >
-      time python src/machine_learning/lgbm_regression.py
+      (time python src/machine_learning/lgbm_regression.py
       data/imputed/imputed_data.csv.gz
       models/lgbm_regression/lgbm_model.pkl
       results/lgbm_regression/lgbm_regression_plot.png
-      results/lgbm_regression/lgbm_importance_features.csv
+      results/lgbm_regression/lgbm_importance_features.csv)
+      |& tee logs/lgbm_regression.log
     deps:
       - data/imputed/imputed_data.csv.gz
       - src/machine_learning/lgbm_regression.py
@@ -123,14 +131,60 @@ stages:
 
   mlp_regression:
     cmd: >
-      time python src/deep_learning/mlp_regression.py
+      (time python src/deep_learning/mlp_regression.py
       data/imputed/imputed_data.csv.gz
       results/mlp_regression/mlp_regression_plot.png
-      models/mlp_regression/mlp_model.h5
+      models/mlp_regression/mlp_model.h5)
+      |& tee logs/mlp_regression.log
     deps:
       - data/imputed/imputed_data.csv.gz
       - src/deep_learning/mlp_regression.py
     outs:
       - models/mlp_regression/mlp_model.h5
       - results/mlp_regression/mlp_regression_plot.png:
+          cache: false
+
+  dffn_regression:
+    cmd: >
+      (time python src/deep_learning/dffn_regression.py
+      data/imputed/imputed_data.csv.gz
+      results/dffn_regression/dffn_regression_plot.png
+      models/dffn_regression/dffn_model.h5)
+      |& tee logs/dffn_regression.log
+    deps:
+      - data/imputed/imputed_data.csv.gz
+      - src/deep_learning/dffn_regression.py
+    outs:
+      - models/dffn_regression/dffn_model.h5
+      - results/dffn_regression/dffn_regression_plot.png:
+          cache: false
+  
+  lstm_regression:
+    cmd: >
+      (time python src/deep_learning/lstm_regression.py
+      data/imputed/imputed_data.csv.gz
+      results/lstm_regression/lstm_regression_plot.png
+      models/lstm_regression/lstm_model.h5)
+      |& tee logs/lstm_regression.log
+    deps:
+      - data/imputed/imputed_data.csv.gz
+      - src/deep_learning/lstm_regression.py
+    outs:
+      - models/lstm_regression/lstm_model.h5
+      - results/lstm_regression/lstm_regression_plot.png:
+          cache: false
+
+  wide_and_deep_regression:
+    cmd: >
+      (time python src/deep_learning/wide_and_deep_regression.py
+      data/imputed/imputed_data.csv.gz
+      results/wide_and_deep_regression/wide_and_deep_regression.png
+      models/wide_and_deep_regression/wide_and_deep_model.h5)
+      |& tee logs/wide_and_deep_regression.log
+    deps:
+      - data/imputed/imputed_data.csv.gz
+      - src/deep_learning/wide_and_deep_regression.py
+    outs:
+      - models/wide_and_deep_regression/wide_and_deep_model.h5
+      - results/wide_and_deep_regression/wide_and_deep_regression.png:
           cache: false

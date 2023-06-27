@@ -1,18 +1,18 @@
 import argparse
 import logging
 
-import cudf
-import cupy as cp
-import joblib
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
-from cuml import SVR as cuSVR
-from cuml.metrics.regression import (mean_absolute_error, mean_squared_error,
-                                     r2_score)
-from cuml.model_selection import train_test_split as cuml_train_test_split
-from cuml.preprocessing import StandardScaler
+import tensorflow as tf
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from tensorflow.keras.callbacks import EarlyStopping
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.optimizers import Adam
 
 
 def main():
@@ -23,90 +23,98 @@ def main():
 
     logging.info('Starting script...')
 
-    # Argument parser for command line interaction
     parser = argparse.ArgumentParser(
-        description="Train a Support Vector Regression model."
+        description="Perform regression analysis and generate relevant plots."
     )
-    # Input dataset file path
     parser.add_argument(
         "input_file",
         type=str,
-        help="Path to the input dataset file."
+        help="Path to the input dataset file.",
     )
-    # Output model file path
-    parser.add_argument(
-        "model_file",
-        type=str,
-        help="Path to the output file for the trained model."
-    )
-    # Output plot file path
     parser.add_argument(
         "plot_file",
         type=str,
-        help="Path to the output file for the prediction plot."
+        help="Path to the output file for the predicted vs actual plot.",
+    )
+    parser.add_argument(
+        "dffn_model",
+        type=str,
+        help="Path to the output file for the trained DFFN model.",
     )
 
     args = parser.parse_args()
 
     input_file = args.input_file
-    model_file = args.model_file
     plot_file = args.plot_file
+    dffn_model = args.dffn_model
 
-    # Load dataset
+    # Load the dataset
     data = pd.read_csv(input_file)
 
     target_column = 'soc_percent'
 
-    # Split data into features and target
+    # Separate features from the target
     X = data.drop(target_column, axis=1)
     y = data[target_column]
 
-    # Convert pandas dataframes to cuDF dataframes for GPU computation
-    X = cudf.DataFrame.from_pandas(X)
-    y = cudf.Series(y)
-
-    # Split data into training and test sets
-    X_train, X_test, y_train, y_test = cuml_train_test_split(
+    # Split the data into training and test sets
+    X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=42)
 
-    # Scale data
+    # Standardize the features
     scaler = StandardScaler()
     X_train = scaler.fit_transform(X_train)
     X_test = scaler.transform(X_test)
 
-    # Initialize Support Vector Regression model
-    svr = cuSVR(kernel='rbf', C=1e3, gamma=0.2)
+    # Set the random seed for TensorFlow
+    tf.random.set_seed(42)
 
-    # Train model
-    svr.fit(X_train, y_train)
-    logging.info('Model trained.')
+    # Define the MLP model
+    model = Sequential()
+    model.add(
+        Dense(
+            64,
+            input_dim=X_train.shape[1],
+            activation='relu'))  # Input layer
+    model.add(Dense(64, activation='relu'))  # Hidden layer 1
+    model.add(Dense(64, activation='relu'))  # Hidden layer 2
+    model.add(Dense(64, activation='relu'))  # Hidden layer 3
+    model.add(Dense(1))  # Output layer
 
-    # Predict on test data
-    y_pred = svr.predict(X_test)
+    # Print the model summary
+    model.summary()
 
-    # Convert cuDF series to cupy array for further computation
-    y_pred = cp.asarray(y_pred)
+    # Compile the MLP model
+    model.compile(loss='mean_squared_error', optimizer=Adam())
 
-    # Calculate Mean Squared Error
-    mse = mean_squared_error(y_test, y_pred)
-    logging.info(f'Mean Squared Error: {mse}')
+    # Define early stopping
+    early_stop = EarlyStopping(
+        monitor='val_loss',
+        patience=15,
+        restore_best_weights=True)
 
-    # Save trained model
-    joblib.dump(svr, model_file)
-    logging.info(f'Model saved to {model_file}.')
+    # Train the model with validation split and early stopping
+    model.fit(
+        X_train,
+        y_train,
+        validation_split=0.2,
+        epochs=100,
+        batch_size=32,
+        callbacks=[early_stop],
+        verbose=2)
 
-    # Convert cuDF series to cupy array for plotting
-    y_test = cp.asarray(y_test)
+    # Save the trained model to a file
+    model.save(dffn_model)
+    logging.info(f'DFFN model saved to {dffn_model}.')
 
-    # Compute residuals
-    residuals = y_test.get() - y_pred.get()
-
-    fig, ax = plt.subplots(1, 2, figsize=(14, 6))
+    # Use the model to make predictions on the test data
+    y_pred = model.predict(X_test).flatten()
 
     # Actual vs Predicted plot
+    fig, ax = plt.subplots(1, 2, figsize=(14, 6))
     sns.scatterplot(
-        x=y_test.get(),
-        y=y_pred.get(),
+        x=y_test,
+        y=y_pred,
         ax=ax[0],
         edgecolor=None,
         alpha=0.6,
@@ -114,6 +122,7 @@ def main():
     ax[0].set_xlabel('Actual Values', fontsize=12)
     ax[0].set_ylabel('Predicted Values', fontsize=12)
     ax[0].set_title('Actual vs Predicted Values', fontsize=14)
+
     # Add a line for perfect predictions
     lims = [
         np.min([ax[0].get_xlim(), ax[0].get_ylim()]),  # min of both axes
@@ -122,8 +131,9 @@ def main():
     ax[0].plot(lims, lims, 'k-', alpha=0.75, zorder=0)
 
     # Residual plot
+    residuals = y_test - y_pred
     sns.scatterplot(
-        x=y_pred.get(),
+        x=y_pred,
         y=residuals,
         ax=ax[1],
         edgecolor=None,
@@ -156,10 +166,10 @@ def main():
 
     # Save the plot to a plot_file
     plt.savefig(plot_file)
-    logging.info(f'Plot saved to {plot_file}.')
+    logging.info(f'Plot saved as {plot_file}.')
 
-    logging.info('Finished script.')
+    logging.info('Script finished.')
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

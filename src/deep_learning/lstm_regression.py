@@ -37,16 +37,16 @@ def main():
         help="Path to the output file for the predicted vs actual plot.",
     )
     parser.add_argument(
-        "mlp_model",
+        "lstm_model",
         type=str,
-        help="Path to the output file for the trained MLP model.",
+        help="Path to the output file for the trained LSTM model.",
     )
 
     args = parser.parse_args()
 
     input_file = args.input_file
     plot_file = args.plot_file
-    mlp_model = args.mlp_model
+    lstm_model = args.lstm_model
 
     # Load the dataset
     data = pd.read_csv(input_file)
@@ -63,20 +63,45 @@ def main():
 
     # Standardize the features
     scaler = StandardScaler()
-    X_train = scaler.fit_transform(X_train)
-    X_test = scaler.transform(X_test)
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
 
     # Set the random seed for TensorFlow
     tf.random.set_seed(42)
 
-    # Define the MLP model
+    # Create a separate array for the year column
+    years_train = X_train['year'].to_numpy().reshape(-1, 1)
+    years_test = X_test['year'].to_numpy().reshape(-1, 1)
+
+    # Standardize the year column
+    year_scaler = StandardScaler()
+    years_train_scaled = year_scaler.fit_transform(years_train)
+    years_test_scaled = year_scaler.transform(years_test)
+
+    # Concatenate the year column with the input features
+    X_train_final = np.concatenate(
+        [X_train_scaled, years_train_scaled], axis=1)
+    X_test_final = np.concatenate([X_test_scaled, years_test_scaled], axis=1)
+
+    # Reshape the input to be 3D (samples, timesteps, features) for LSTM
+    X_train_final = X_train_final.reshape(
+        (X_train_final.shape[0], 1, X_train_final.shape[1]))
+    X_test_final = X_test_final.reshape(
+        (X_test_final.shape[0], 1, X_test_final.shape[1]))
+
+    # Define the LSTM model
     model = Sequential()
     model.add(
-        Dense(
+        tf.keras.layers.LSTM(
             64,
-            input_dim=X_train.shape[1],
-            activation='relu'))  # Input layer
-    model.add(Dense(32, activation='relu'))  # Hidden layer
+            input_shape=(
+                X_train_final.shape[1],
+                X_train_final.shape[2]),
+            # Input layer
+            return_sequences=True,
+        )
+    )
+    model.add(tf.keras.layers.LSTM(32))  # Hidden layer
     model.add(Dense(1))  # Output layer
 
     # Print the model summary
@@ -93,7 +118,7 @@ def main():
 
     # Train the model with validation split and early stopping
     model.fit(
-        X_train,
+        X_train_final,
         y_train,
         validation_split=0.2,
         epochs=100,
@@ -102,11 +127,11 @@ def main():
         verbose=2)
 
     # Save the trained model to a file
-    model.save(mlp_model)
-    logging.info(f'MLP model saved to {mlp_model}.')
+    model.save(lstm_model)
+    logging.info(f'LSTM model saved to {lstm_model}.')
 
     # Use the model to make predictions on the test data
-    y_pred = model.predict(X_test).flatten()
+    y_pred = model.predict(X_test_final).flatten()
 
     # Actual vs Predicted plot
     fig, ax = plt.subplots(1, 2, figsize=(14, 6))
@@ -164,9 +189,9 @@ def main():
 
     # Save the plot to a plot_file
     plt.savefig(plot_file)
-    logging.info(f'Plot saved as {plot_file}.')
+    logging.info(f'Plot saved to {plot_file}.')
 
-    logging.info('Script finished.')
+    logging.info('Script completed.')
 
 
 if __name__ == "__main__":

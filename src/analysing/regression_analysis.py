@@ -106,11 +106,12 @@ def main():
     # Calculate and display regression metrics
     mae = mean_absolute_error(predictions['Actual'], predictions['Predicted'])
     mse = mean_squared_error(predictions['Actual'], predictions['Predicted'])
+    rmse = np.sqrt(mse)
     r2 = r2_score(predictions['Actual'], predictions['Predicted'])
     plt.text(
         0.05,
         0.85,
-        f'MAE: {mae:.2f}\nMSE: {mse:.2f}\nR2: {r2:.2f}',
+        f'MAE: {mae:.3f}\nRMSE: {rmse:.3f}\nR2: {r2:.3f}',
         transform=plt.gca().transAxes,
         bbox=dict(
             facecolor='white',

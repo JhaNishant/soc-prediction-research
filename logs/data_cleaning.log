@@ -1,0 +1,7 @@
+2023-06-27 14:33:38,923 - INFO - Starting script...
+2023-06-27 14:34:01,175 - INFO - Saved the cleaned dataset to data/preprocessed/cleaned_data.csv.gz.
+2023-06-27 14:34:01,175 - INFO - Finished script.
+
+real	0m22.783s
+user	0m23.111s
+sys	0m0.964s

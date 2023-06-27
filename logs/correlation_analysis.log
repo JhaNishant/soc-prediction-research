@@ -1,0 +1,9 @@
+2023-06-27 14:44:24,083 - INFO - Starting script...
+2023-06-27 14:44:30,818 - INFO - Saved correlation coefficients to results/correlation_analysis/soc_percent_correlations.csv
+2023-06-27 14:44:31,372 - INFO - Saved correlation bar graph to results/correlation_analysis/correlation_bar_graph.png
+2023-06-27 14:45:00,826 - INFO - Saved scatter plot matrix to results/correlation_analysis/scatterplot_matrix.png
+2023-06-27 14:45:00,827 - INFO - Finished script.
+
+real	0m48.978s
+user	0m49.058s
+sys	0m1.480s

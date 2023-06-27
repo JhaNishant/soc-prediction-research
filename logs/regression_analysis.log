@@ -1,0 +1,117 @@
+2023-06-27 14:34:42,742 - INFO - Starting script...
+[Parallel(n_jobs=-1)]: Using backend ThreadingBackend with 12 concurrent workers.
+[Parallel(n_jobs=-1)]: Done  17 tasks      | elapsed:   31.5s
+[Parallel(n_jobs=-1)]: Done 100 out of 100 | elapsed:  2.3min finished
+2023-06-27 14:37:02,252 - INFO - rf_model saved to models/regression_analysis/rf_model.pkl.
+[Parallel(n_jobs=12)]: Using backend ThreadingBackend with 12 concurrent workers.
+[Parallel(n_jobs=12)]: Done  17 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=12)]: Done 100 out of 100 | elapsed:    0.1s finished
+2023-06-27 14:37:02,414 - INFO - Predictions saved to results/regression_analysis/predictions.csv.
+2023-06-27 14:37:02,909 - INFO - Predicted vs Actual plot saved to results/regression_analysis/predicted_vs_actual_plot.png.
+2023-06-27 14:37:02,939 - INFO - Feature importances saved to results/regression_analysis/regression_coefficients.csv.
+2023-06-27 14:37:03,226 - INFO - Regression plot saved to results/regression_analysis/regression_plot.png.
+2023-06-27 14:37:03,226 - INFO - Finished script.
+building tree 1 of 100
+building tree 2 of 100
+building tree 3 of 100
+building tree 4 of 100
+building tree 5 of 100
+building tree 6 of 100
+building tree 7 of 100
+building tree 8 of 100
+building tree 9 of 100
+building tree 10 of 100
+building tree 11 of 100
+building tree 12 of 100
+building tree 13 of 100
+building tree 14 of 100
+building tree 15 of 100
+building tree 16 of 100
+building tree 17 of 100
+building tree 18 of 100
+building tree 19 of 100
+building tree 20 of 100
+building tree 21 of 100
+building tree 22 of 100
+building tree 23 of 100
+building tree 24 of 100
+building tree 25 of 100
+building tree 26 of 100
+building tree 27 of 100
+building tree 28 of 100
+building tree 29 of 100
+building tree 30 of 100
+building tree 31 of 100
+building tree 32 of 100
+building tree 33 of 100
+building tree 34 of 100
+building tree 35 of 100
+building tree 36 of 100
+building tree 37 of 100
+building tree 38 of 100
+building tree 39 of 100
+building tree 40 of 100
+building tree 41 of 100
+building tree 42 of 100
+building tree 43 of 100
+building tree 44 of 100
+building tree 45 of 100
+building tree 46 of 100
+building tree 47 of 100
+building tree 48 of 100
+building tree 49 of 100
+building tree 50 of 100
+building tree 51 of 100
+building tree 52 of 100
+building tree 53 of 100
+building tree 54 of 100
+building tree 55 of 100
+building tree 56 of 100
+building tree 57 of 100
+building tree 58 of 100
+building tree 59 of 100
+building tree 60 of 100
+building tree 61 of 100
+building tree 62 of 100
+building tree 63 of 100
+building tree 64 of 100
+building tree 65 of 100
+building tree 66 of 100
+building tree 67 of 100
+building tree 68 of 100
+building tree 69 of 100
+building tree 70 of 100
+building tree 71 of 100
+building tree 72 of 100
+building tree 73 of 100
+building tree 74 of 100
+building tree 75 of 100
+building tree 76 of 100
+building tree 77 of 100
+building tree 78 of 100
+building tree 79 of 100
+building tree 80 of 100
+building tree 81 of 100
+building tree 82 of 100
+building tree 83 of 100
+building tree 84 of 100
+building tree 85 of 100
+building tree 86 of 100
+building tree 87 of 100
+building tree 88 of 100
+building tree 89 of 100
+building tree 90 of 100
+building tree 91 of 100
+building tree 92 of 100
+building tree 93 of 100
+building tree 94 of 100
+building tree 95 of 100
+building tree 96 of 100
+building tree 97 of 100
+building tree 98 of 100
+building tree 99 of 100
+building tree 100 of 100
+
+real	2m22.351s
+user	25m57.084s
+sys	0m2.489s

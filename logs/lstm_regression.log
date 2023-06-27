@@ -1,0 +1,147 @@
+2023-06-27 14:51:47.392517: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2023-06-27 14:51:47.450141: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2023-06-27 14:51:48.373516: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+2023-06-27 14:51:49,167 - INFO - Starting script...
+2023-06-27 14:51:52.372024: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1635] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 37905 MB memory:  -> device: 0, name: NVIDIA A100-SXM4-40GB, pci bus id: 0000:00:04.0, compute capability: 8.0
+2023-06-27 14:51:53.381043: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_2_grad/concat/split_2/split_dim' with dtype int32
+	 [[{{node gradients/split_2_grad/concat/split_2/split_dim}}]]
+2023-06-27 14:51:53.382472: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_grad/concat/split/split_dim' with dtype int32
+	 [[{{node gradients/split_grad/concat/split/split_dim}}]]
+2023-06-27 14:51:53.383868: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_1_grad/concat/split_1/split_dim' with dtype int32
+	 [[{{node gradients/split_1_grad/concat/split_1/split_dim}}]]
+2023-06-27 14:51:53.599268: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_2_grad/concat/split_2/split_dim' with dtype int32
+	 [[{{node gradients/split_2_grad/concat/split_2/split_dim}}]]
+2023-06-27 14:51:53.600643: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_grad/concat/split/split_dim' with dtype int32
+	 [[{{node gradients/split_grad/concat/split/split_dim}}]]
+2023-06-27 14:51:53.602090: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_1_grad/concat/split_1/split_dim' with dtype int32
+	 [[{{node gradients/split_1_grad/concat/split_1/split_dim}}]]
+Model: "sequential"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ lstm (LSTM)                 (None, 1, 64)             60928     
+                                                                 
+ lstm_1 (LSTM)               (None, 32)                12416     
+                                                                 
+ dense (Dense)               (None, 1)                 33        
+                                                                 
+=================================================================
+Total params: 73,377
+Trainable params: 73,377
+Non-trainable params: 0
+_________________________________________________________________
+Epoch 1/100
+2023-06-27 14:51:54.162253: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_2_grad/concat/split_2/split_dim' with dtype int32
+	 [[{{node gradients/split_2_grad/concat/split_2/split_dim}}]]
+2023-06-27 14:51:54.163750: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_grad/concat/split/split_dim' with dtype int32
+	 [[{{node gradients/split_grad/concat/split/split_dim}}]]
+2023-06-27 14:51:54.165129: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_1_grad/concat/split_1/split_dim' with dtype int32
+	 [[{{node gradients/split_1_grad/concat/split_1/split_dim}}]]
+2023-06-27 14:51:54.383698: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_2_grad/concat/split_2/split_dim' with dtype int32
+	 [[{{node gradients/split_2_grad/concat/split_2/split_dim}}]]
+2023-06-27 14:51:54.385237: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_grad/concat/split/split_dim' with dtype int32
+	 [[{{node gradients/split_grad/concat/split/split_dim}}]]
+2023-06-27 14:51:54.386674: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_1_grad/concat/split_1/split_dim' with dtype int32
+	 [[{{node gradients/split_1_grad/concat/split_1/split_dim}}]]
+2023-06-27 14:51:55.409727: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_2_grad/concat/split_2/split_dim' with dtype int32
+	 [[{{node gradients/split_2_grad/concat/split_2/split_dim}}]]
+2023-06-27 14:51:55.411145: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_grad/concat/split/split_dim' with dtype int32
+	 [[{{node gradients/split_grad/concat/split/split_dim}}]]
+2023-06-27 14:51:55.412480: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_1_grad/concat/split_1/split_dim' with dtype int32
+	 [[{{node gradients/split_1_grad/concat/split_1/split_dim}}]]
+2023-06-27 14:51:55.626605: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_2_grad/concat/split_2/split_dim' with dtype int32
+	 [[{{node gradients/split_2_grad/concat/split_2/split_dim}}]]
+2023-06-27 14:51:55.628026: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_grad/concat/split/split_dim' with dtype int32
+	 [[{{node gradients/split_grad/concat/split/split_dim}}]]
+2023-06-27 14:51:55.629353: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_1_grad/concat/split_1/split_dim' with dtype int32
+	 [[{{node gradients/split_1_grad/concat/split_1/split_dim}}]]
+2023-06-27 14:51:58.015053: I tensorflow/compiler/xla/stream_executor/cuda/cuda_dnn.cc:424] Loaded cuDNN version 8902
+2023-06-27 14:51:58.232265: I tensorflow/compiler/xla/stream_executor/cuda/cuda_blas.cc:637] TensorFloat-32 will be used for the matrix multiplication. This will only be logged once.
+2023-06-27 14:51:58.277850: I tensorflow/compiler/xla/service/service.cc:169] XLA service 0x7efb48144480 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+2023-06-27 14:51:58.277879: I tensorflow/compiler/xla/service/service.cc:177]   StreamExecutor device (0): NVIDIA A100-SXM4-40GB, Compute Capability 8.0
+2023-06-27 14:51:58.283027: I tensorflow/compiler/mlir/tensorflow/utils/dump_mlir_util.cc:269] disabling MLIR crash reproducer, set env var `MLIR_CRASH_REPRODUCER_DIRECTORY` to enable.
+2023-06-27 14:51:58.443917: I ./tensorflow/compiler/jit/device_compiler.h:180] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
+2023-06-27 14:52:03.634683: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_2_grad/concat/split_2/split_dim' with dtype int32
+	 [[{{node gradients/split_2_grad/concat/split_2/split_dim}}]]
+2023-06-27 14:52:03.636091: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_grad/concat/split/split_dim' with dtype int32
+	 [[{{node gradients/split_grad/concat/split/split_dim}}]]
+2023-06-27 14:52:03.637332: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_1_grad/concat/split_1/split_dim' with dtype int32
+	 [[{{node gradients/split_1_grad/concat/split_1/split_dim}}]]
+2023-06-27 14:52:03.843660: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_2_grad/concat/split_2/split_dim' with dtype int32
+	 [[{{node gradients/split_2_grad/concat/split_2/split_dim}}]]
+2023-06-27 14:52:03.845005: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_grad/concat/split/split_dim' with dtype int32
+	 [[{{node gradients/split_grad/concat/split/split_dim}}]]
+2023-06-27 14:52:03.846247: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_1_grad/concat/split_1/split_dim' with dtype int32
+	 [[{{node gradients/split_1_grad/concat/split_1/split_dim}}]]
+1258/1258 - 11s - loss: 48.6397 - val_loss: 43.8754 - 11s/epoch - 9ms/step
+Epoch 2/100
+1258/1258 - 5s - loss: 38.8955 - val_loss: 36.9637 - 5s/epoch - 4ms/step
+Epoch 3/100
+1258/1258 - 5s - loss: 35.3862 - val_loss: 35.7037 - 5s/epoch - 4ms/step
+Epoch 4/100
+1258/1258 - 5s - loss: 33.3683 - val_loss: 33.1657 - 5s/epoch - 4ms/step
+Epoch 5/100
+1258/1258 - 5s - loss: 32.2642 - val_loss: 32.7529 - 5s/epoch - 4ms/step
+Epoch 6/100
+1258/1258 - 5s - loss: 31.3970 - val_loss: 31.8213 - 5s/epoch - 4ms/step
+Epoch 7/100
+1258/1258 - 5s - loss: 31.0412 - val_loss: 31.9445 - 5s/epoch - 4ms/step
+Epoch 8/100
+1258/1258 - 5s - loss: 30.4128 - val_loss: 31.3141 - 5s/epoch - 4ms/step
+Epoch 9/100
+1258/1258 - 5s - loss: 29.7040 - val_loss: 31.8355 - 5s/epoch - 4ms/step
+Epoch 10/100
+1258/1258 - 6s - loss: 29.5762 - val_loss: 31.2980 - 6s/epoch - 4ms/step
+Epoch 11/100
+1258/1258 - 5s - loss: 28.9922 - val_loss: 30.5756 - 5s/epoch - 4ms/step
+Epoch 12/100
+1258/1258 - 5s - loss: 28.6460 - val_loss: 32.5801 - 5s/epoch - 4ms/step
+Epoch 13/100
+1258/1258 - 5s - loss: 28.4628 - val_loss: 32.0764 - 5s/epoch - 4ms/step
+Epoch 14/100
+1258/1258 - 5s - loss: 27.8789 - val_loss: 31.8080 - 5s/epoch - 4ms/step
+Epoch 15/100
+1258/1258 - 5s - loss: 27.7659 - val_loss: 31.8047 - 5s/epoch - 4ms/step
+Epoch 16/100
+1258/1258 - 5s - loss: 27.3351 - val_loss: 31.2507 - 5s/epoch - 4ms/step
+Epoch 17/100
+1258/1258 - 5s - loss: 26.8088 - val_loss: 32.9381 - 5s/epoch - 4ms/step
+Epoch 18/100
+1258/1258 - 5s - loss: 26.6548 - val_loss: 33.0816 - 5s/epoch - 4ms/step
+Epoch 19/100
+1258/1258 - 5s - loss: 26.0753 - val_loss: 31.9858 - 5s/epoch - 4ms/step
+Epoch 20/100
+1258/1258 - 5s - loss: 25.8684 - val_loss: 31.7328 - 5s/epoch - 4ms/step
+Epoch 21/100
+1258/1258 - 5s - loss: 25.0171 - val_loss: 31.6485 - 5s/epoch - 4ms/step
+Epoch 22/100
+1258/1258 - 5s - loss: 25.3703 - val_loss: 30.7680 - 5s/epoch - 4ms/step
+Epoch 23/100
+1258/1258 - 5s - loss: 24.8352 - val_loss: 31.2034 - 5s/epoch - 4ms/step
+Epoch 24/100
+1258/1258 - 5s - loss: 24.1740 - val_loss: 30.8947 - 5s/epoch - 4ms/step
+Epoch 25/100
+1258/1258 - 5s - loss: 23.9252 - val_loss: 32.2846 - 5s/epoch - 4ms/step
+Epoch 26/100
+1258/1258 - 5s - loss: 23.6491 - val_loss: 31.4521 - 5s/epoch - 4ms/step
+2023-06-27 14:54:14,699 - INFO - LSTM model saved to models/lstm_regression/lstm_model.h5.
+2023-06-27 14:54:14.994131: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_2_grad/concat/split_2/split_dim' with dtype int32
+	 [[{{node gradients/split_2_grad/concat/split_2/split_dim}}]]
+2023-06-27 14:54:14.995563: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_grad/concat/split/split_dim' with dtype int32
+	 [[{{node gradients/split_grad/concat/split/split_dim}}]]
+2023-06-27 14:54:14.997394: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_1_grad/concat/split_1/split_dim' with dtype int32
+	 [[{{node gradients/split_1_grad/concat/split_1/split_dim}}]]
+2023-06-27 14:54:15.207242: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_2_grad/concat/split_2/split_dim' with dtype int32
+	 [[{{node gradients/split_2_grad/concat/split_2/split_dim}}]]
+2023-06-27 14:54:15.208534: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_grad/concat/split/split_dim' with dtype int32
+	 [[{{node gradients/split_grad/concat/split/split_dim}}]]
+2023-06-27 14:54:15.209785: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'gradients/split_1_grad/concat/split_1/split_dim' with dtype int32
+	 [[{{node gradients/split_1_grad/concat/split_1/split_dim}}]]
+  1/393 [..............................] - ETA: 4:14 25/393 [>.............................] - ETA: 0s   52/393 [==>...........................] - ETA: 0s 79/393 [=====>........................] - ETA: 0s106/393 [=======>......................] - ETA: 0s133/393 [=========>....................] - ETA: 0s161/393 [===========>..................] - ETA: 0s189/393 [=============>................] - ETA: 0s216/393 [===============>..............] - ETA: 0s244/393 [=================>............] - ETA: 0s271/393 [===================>..........] - ETA: 0s299/393 [=====================>........] - ETA: 0s327/393 [=======================>......] - ETA: 0s354/393 [==========================>...] - ETA: 0s382/393 [============================>.] - ETA: 0s393/393 [==============================] - 1s 2ms/step
+2023-06-27 14:54:17,101 - INFO - Plot saved to results/lstm_regression/lstm_regression_plot.png.
+2023-06-27 14:54:17,101 - INFO - Script completed.
+
+real	2m32.619s
+user	3m50.013s
+sys	0m27.176s
