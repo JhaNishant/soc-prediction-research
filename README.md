@@ -28,7 +28,7 @@ Other configuration and setup files include `.DS_Store`, `.dvcignore`, `.gitigno
 This project uses Docker for containerization. Please ensure you have Docker installed on your machine.
 
 1. Clone this repository.
-2. Pull the Docker image from Docker Hub using `docker pull autobotraos/miniconda3-dvc`.
+2. Pull the Docker image from Docker Hub using `docker pull autobotraos/miniconda3-dvc`. You can find more information [here](https://hub.docker.com/r/autobotraos/miniconda3-dvc) about this docker image.
 3. Run the Docker image with `docker run -p 8080:8080 autobotraos/miniconda3-dvc`.
 
 Please refer to the `requirements.txt` and `conda-requirements.txt` for the necessary Python and Conda dependencies.
