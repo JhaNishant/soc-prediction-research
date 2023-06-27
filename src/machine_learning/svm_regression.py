@@ -137,12 +137,13 @@ def main():
     # Calculate and display regression metrics
     mae = mean_absolute_error(y_test, y_pred)
     mse = mean_squared_error(y_test, y_pred)
+    rmse = np.sqrt(mse)
     r2 = r2_score(y_test, y_pred)
 
-    metrics_text = f'MAE: {mae:.2f}\nMSE: {mse:.2f}\nR2: {r2:.2f}'
+    metrics_text = f'MAE: {mae:.3f}\nRMSE: {rmse:.3f}\nR2: {r2:.3f}'
     props = dict(boxstyle='round', facecolor='white', alpha=0.5)
 
-    # Place a text box with metrics in each subplot
+    # Place a text box with metrics in the first subplot
     ax[0].text(
         0.05,
         0.95,
@@ -150,17 +151,12 @@ def main():
         transform=ax[0].transAxes,
         verticalalignment='top',
         bbox=props)
-    ax[1].text(
-        0.05,
-        0.95,
-        metrics_text,
-        transform=ax[1].transAxes,
-        verticalalignment='top',
-        bbox=props)
 
     plt.tight_layout()
+
+    # Save the plot to a plot_file
     plt.savefig(plot_file)
-    logging.info(f'Plot saved as {plot_file}.')
+    logging.info(f'Plot saved to {plot_file}.')
 
     logging.info('Finished script.')
 

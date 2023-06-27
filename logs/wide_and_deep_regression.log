@@ -1,0 +1,120 @@
+2023-06-27 14:54:20.358358: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2023-06-27 14:54:20.425961: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2023-06-27 14:54:21.343784: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+2023-06-27 14:54:22,141 - INFO - Starting script...
+2023-06-27 14:54:25.348763: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1635] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 37904 MB memory:  -> device: 0, name: NVIDIA A100-SXM4-40GB, pci bus id: 0000:00:04.0, compute capability: 8.0
+Model: "model"
+__________________________________________________________________________________________________
+ Layer (type)                   Output Shape         Param #     Connected to                     
+==================================================================================================
+ deep_input (InputLayer)        [(None, 172)]        0           []                               
+                                                                                                  
+ dense (Dense)                  (None, 30)           5190        ['deep_input[0][0]']             
+                                                                                                  
+ wide_input (InputLayer)        [(None, 172)]        0           []                               
+                                                                                                  
+ dense_1 (Dense)                (None, 30)           930         ['dense[0][0]']                  
+                                                                                                  
+ wide_output (Dense)            (None, 1)            173         ['wide_input[0][0]']             
+                                                                                                  
+ deep_output (Dense)            (None, 1)            31          ['dense_1[0][0]']                
+                                                                                                  
+ concatenate (Concatenate)      (None, 2)            0           ['wide_output[0][0]',            
+                                                                  'deep_output[0][0]']            
+                                                                                                  
+ main_output (Dense)            (None, 1)            3           ['concatenate[0][0]']            
+                                                                                                  
+==================================================================================================
+Total params: 6,327
+Trainable params: 6,327
+Non-trainable params: 0
+__________________________________________________________________________________________________
+Epoch 1/100
+2023-06-27 14:54:28.517671: I tensorflow/compiler/xla/stream_executor/cuda/cuda_blas.cc:637] TensorFloat-32 will be used for the matrix multiplication. This will only be logged once.
+2023-06-27 14:54:28.520179: I tensorflow/compiler/xla/service/service.cc:169] XLA service 0x7fca690473e0 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+2023-06-27 14:54:28.520207: I tensorflow/compiler/xla/service/service.cc:177]   StreamExecutor device (0): NVIDIA A100-SXM4-40GB, Compute Capability 8.0
+2023-06-27 14:54:28.525414: I tensorflow/compiler/mlir/tensorflow/utils/dump_mlir_util.cc:269] disabling MLIR crash reproducer, set env var `MLIR_CRASH_REPRODUCER_DIRECTORY` to enable.
+2023-06-27 14:54:28.744545: I tensorflow/compiler/xla/stream_executor/cuda/cuda_dnn.cc:424] Loaded cuDNN version 8902
+2023-06-27 14:54:28.884930: I ./tensorflow/compiler/jit/device_compiler.h:180] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
+1572/1572 - 8s - loss: 41.6410 - val_loss: 37.3083 - 8s/epoch - 5ms/step
+Epoch 2/100
+1572/1572 - 4s - loss: 35.3467 - val_loss: 34.5197 - 4s/epoch - 3ms/step
+Epoch 3/100
+1572/1572 - 5s - loss: 33.8207 - val_loss: 34.5499 - 5s/epoch - 3ms/step
+Epoch 4/100
+1572/1572 - 4s - loss: 32.8946 - val_loss: 35.3075 - 4s/epoch - 3ms/step
+Epoch 5/100
+1572/1572 - 4s - loss: 32.5823 - val_loss: 33.1912 - 4s/epoch - 3ms/step
+Epoch 6/100
+1572/1572 - 4s - loss: 32.1926 - val_loss: 33.4944 - 4s/epoch - 3ms/step
+Epoch 7/100
+1572/1572 - 4s - loss: 32.0490 - val_loss: 32.6492 - 4s/epoch - 3ms/step
+Epoch 8/100
+1572/1572 - 5s - loss: 31.5277 - val_loss: 33.1937 - 5s/epoch - 3ms/step
+Epoch 9/100
+1572/1572 - 4s - loss: 31.5170 - val_loss: 32.4723 - 4s/epoch - 3ms/step
+Epoch 10/100
+1572/1572 - 4s - loss: 31.1744 - val_loss: 34.7503 - 4s/epoch - 3ms/step
+Epoch 11/100
+1572/1572 - 4s - loss: 31.0428 - val_loss: 32.5159 - 4s/epoch - 3ms/step
+Epoch 12/100
+1572/1572 - 4s - loss: 30.8766 - val_loss: 34.0771 - 4s/epoch - 3ms/step
+Epoch 13/100
+1572/1572 - 4s - loss: 30.5075 - val_loss: 32.5960 - 4s/epoch - 3ms/step
+Epoch 14/100
+1572/1572 - 5s - loss: 30.4449 - val_loss: 35.0892 - 5s/epoch - 3ms/step
+Epoch 15/100
+1572/1572 - 4s - loss: 30.1763 - val_loss: 32.0054 - 4s/epoch - 3ms/step
+Epoch 16/100
+1572/1572 - 4s - loss: 30.2403 - val_loss: 34.0996 - 4s/epoch - 3ms/step
+Epoch 17/100
+1572/1572 - 4s - loss: 29.9478 - val_loss: 32.6165 - 4s/epoch - 3ms/step
+Epoch 18/100
+1572/1572 - 4s - loss: 29.6479 - val_loss: 33.1015 - 4s/epoch - 3ms/step
+Epoch 19/100
+1572/1572 - 4s - loss: 29.6038 - val_loss: 32.1243 - 4s/epoch - 3ms/step
+Epoch 20/100
+1572/1572 - 4s - loss: 29.6732 - val_loss: 32.9850 - 4s/epoch - 3ms/step
+Epoch 21/100
+1572/1572 - 4s - loss: 29.2955 - val_loss: 32.4914 - 4s/epoch - 3ms/step
+Epoch 22/100
+1572/1572 - 4s - loss: 29.1612 - val_loss: 31.7855 - 4s/epoch - 3ms/step
+Epoch 23/100
+1572/1572 - 4s - loss: 29.1331 - val_loss: 32.0713 - 4s/epoch - 3ms/step
+Epoch 24/100
+1572/1572 - 4s - loss: 28.8577 - val_loss: 33.7428 - 4s/epoch - 3ms/step
+Epoch 25/100
+1572/1572 - 5s - loss: 28.8345 - val_loss: 32.5671 - 5s/epoch - 3ms/step
+Epoch 26/100
+1572/1572 - 5s - loss: 28.5559 - val_loss: 32.2933 - 5s/epoch - 3ms/step
+Epoch 27/100
+1572/1572 - 4s - loss: 28.4965 - val_loss: 34.1819 - 4s/epoch - 3ms/step
+Epoch 28/100
+1572/1572 - 4s - loss: 28.3912 - val_loss: 33.0051 - 4s/epoch - 3ms/step
+Epoch 29/100
+1572/1572 - 5s - loss: 28.1859 - val_loss: 32.4505 - 5s/epoch - 3ms/step
+Epoch 30/100
+1572/1572 - 4s - loss: 28.0618 - val_loss: 31.8832 - 4s/epoch - 3ms/step
+Epoch 31/100
+1572/1572 - 5s - loss: 27.9454 - val_loss: 32.8353 - 5s/epoch - 3ms/step
+Epoch 32/100
+1572/1572 - 4s - loss: 27.8618 - val_loss: 32.6050 - 4s/epoch - 3ms/step
+Epoch 33/100
+1572/1572 - 4s - loss: 27.6323 - val_loss: 33.2561 - 4s/epoch - 3ms/step
+Epoch 34/100
+1572/1572 - 4s - loss: 27.6032 - val_loss: 32.9777 - 4s/epoch - 3ms/step
+Epoch 35/100
+1572/1572 - 5s - loss: 27.2814 - val_loss: 33.6276 - 5s/epoch - 3ms/step
+Epoch 36/100
+1572/1572 - 4s - loss: 27.4780 - val_loss: 33.0507 - 4s/epoch - 3ms/step
+Epoch 37/100
+1572/1572 - 5s - loss: 27.2496 - val_loss: 35.5718 - 5s/epoch - 3ms/step
+2023-06-27 14:57:16,470 - INFO - Wide & Deep model saved to models/wide_and_deep_regression/wide_and_deep_model.h5.
+  1/393 [..............................] - ETA: 35s 42/393 [==>...........................] - ETA: 0s  82/393 [=====>........................] - ETA: 0s122/393 [========>.....................] - ETA: 0s162/393 [===========>..................] - ETA: 0s201/393 [==============>...............] - ETA: 0s238/393 [=================>............] - ETA: 0s273/393 [===================>..........] - ETA: 0s312/393 [======================>.......] - ETA: 0s350/393 [=========================>....] - ETA: 0s391/393 [============================>.] - ETA: 0s393/393 [==============================] - 1s 1ms/step
+2023-06-27 14:57:18,116 - INFO - Plot saved as results/wide_and_deep_regression/wide_and_deep_regression.png.
+2023-06-27 14:57:18,117 - INFO - Script finished.
+
+real	3m0.646s
+user	4m14.554s
+sys	0m28.640s

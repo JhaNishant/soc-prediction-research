@@ -1,0 +1,10 @@
+2023-06-27 14:45:15,527 - INFO - Starting script...
+2023-06-27 14:45:24,401 - INFO - Model trained.
+2023-06-27 14:45:24,497 - INFO - Mean Squared Error: 57.95015757433121
+2023-06-27 14:45:24,599 - INFO - Model saved to models/svm_regression/svm_model.pkl.
+2023-06-27 14:45:25,309 - INFO - Plot saved to results/svm_regression/svm_regression_plot.png.
+2023-06-27 14:45:25,309 - INFO - Finished script.
+
+real	0m14.229s
+user	0m12.753s
+sys	0m3.858s

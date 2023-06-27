@@ -5,11 +5,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+import tensorflow as tf
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from tabtransformertf.models.tabtransformer import TabTransformer
 from tensorflow.keras.callbacks import EarlyStopping
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import Adam
 
 
@@ -22,7 +24,7 @@ def main():
     logging.info('Starting script...')
 
     parser = argparse.ArgumentParser(
-        description="Perform regression analysis using TabTransformer model."
+        description="Perform regression analysis and generate relevant plots."
     )
     parser.add_argument(
         "input_file",
@@ -35,16 +37,16 @@ def main():
         help="Path to the output file for the predicted vs actual plot.",
     )
     parser.add_argument(
-        "tabtransformer_model",
+        "lstm_model",
         type=str,
-        help="Path to the output file for the trained TabTransformer model.",
+        help="Path to the output file for the trained LSTM model.",
     )
 
     args = parser.parse_args()
 
     input_file = args.input_file
     plot_file = args.plot_file
-    tabtransformer_model = args.tabtransformer_model
+    lstm_model = args.lstm_model
 
     # Load the dataset
     data = pd.read_csv(input_file)
@@ -52,8 +54,8 @@ def main():
     target_column = 'soc_percent'
 
     # Separate features from the target
-    X = data.drop(target_column, axis=1).values
-    y = data[target_column].values
+    X = data.drop(target_column, axis=1)
+    y = data[target_column]
 
     # Split the data into training and test sets
     X_train, X_test, y_train, y_test = train_test_split(
@@ -61,17 +63,52 @@ def main():
 
     # Standardize the features
     scaler = StandardScaler()
-    X_train = scaler.fit_transform(X_train)
-    X_test = scaler.transform(X_test)
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
 
-    # Define the TabTransformer model
-    model = TabTransformer(out_dim=1, out_activation='linear')
+    # Set the random seed for TensorFlow
+    tf.random.set_seed(42)
 
-    # Compile the TabTransformer model
-    model.compile(loss='mean_squared_error', optimizer=Adam())
+    # Create a separate array for the year column
+    years_train = X_train['year'].to_numpy().reshape(-1, 1)
+    years_test = X_test['year'].to_numpy().reshape(-1, 1)
+
+    # Standardize the year column
+    year_scaler = StandardScaler()
+    years_train_scaled = year_scaler.fit_transform(years_train)
+    years_test_scaled = year_scaler.transform(years_test)
+
+    # Concatenate the year column with the input features
+    X_train_final = np.concatenate(
+        [X_train_scaled, years_train_scaled], axis=1)
+    X_test_final = np.concatenate([X_test_scaled, years_test_scaled], axis=1)
+
+    # Reshape the input to be 3D (samples, timesteps, features) for LSTM
+    X_train_final = X_train_final.reshape(
+        (X_train_final.shape[0], 1, X_train_final.shape[1]))
+    X_test_final = X_test_final.reshape(
+        (X_test_final.shape[0], 1, X_test_final.shape[1]))
+
+    # Define the LSTM model
+    model = Sequential()
+    model.add(
+        tf.keras.layers.LSTM(
+            64,
+            input_shape=(
+                X_train_final.shape[1],
+                X_train_final.shape[2]),
+            # Input layer
+            return_sequences=True,
+        )
+    )
+    model.add(tf.keras.layers.LSTM(32))  # Hidden layer
+    model.add(Dense(1))  # Output layer
 
     # Print the model summary
     model.summary()
+
+    # Compile the MLP model
+    model.compile(loss='mean_squared_error', optimizer=Adam())
 
     # Define early stopping
     early_stop = EarlyStopping(
@@ -79,26 +116,28 @@ def main():
         patience=15,
         restore_best_weights=True)
 
-    # Train the model
+    # Train the model with validation split and early stopping
     model.fit(
-        X_train,
+        X_train_final,
         y_train,
-        validation_data=(X_test, y_test),
+        validation_split=0.2,
         epochs=100,
-        callbacks=[early_stop])
+        batch_size=32,
+        callbacks=[early_stop],
+        verbose=2)
 
     # Save the trained model to a file
-    model.save(tabtransformer_model)
-    logging.info(f'TabTransformer model saved to {tabtransformer_model}.')
+    model.save(lstm_model)
+    logging.info(f'LSTM model saved to {lstm_model}.')
 
     # Use the model to make predictions on the test data
-    y_pred = model.predict(X_test)
+    y_pred = model.predict(X_test_final).flatten()
 
     # Actual vs Predicted plot
     fig, ax = plt.subplots(1, 2, figsize=(14, 6))
     sns.scatterplot(
         x=y_test,
-        y=y_pred.flatten(),
+        y=y_pred,
         ax=ax[0],
         edgecolor=None,
         alpha=0.6,
@@ -115,9 +154,9 @@ def main():
     ax[0].plot(lims, lims, 'k-', alpha=0.75, zorder=0)
 
     # Residual plot
-    residuals = y_test - y_pred.flatten()
+    residuals = y_test - y_pred
     sns.scatterplot(
-        x=y_pred.flatten(),
+        x=y_pred,
         y=residuals,
         ax=ax[1],
         edgecolor=None,
@@ -129,14 +168,15 @@ def main():
     ax[1].set_title('Residual Plot', fontsize=14)
 
     # Calculate and display regression metrics
-    mae = mean_absolute_error(y_test, y_pred.flatten())
-    mse = mean_squared_error(y_test, y_pred.flatten())
-    r2 = r2_score(y_test, y_pred.flatten())
+    mae = mean_absolute_error(y_test, y_pred)
+    mse = mean_squared_error(y_test, y_pred)
+    rmse = np.sqrt(mse)
+    r2 = r2_score(y_test, y_pred)
 
-    metrics_text = f'MAE: {mae:.2f}\nMSE: {mse:.2f}\nR2: {r2:.2f}'
+    metrics_text = f'MAE: {mae:.3f}\nRMSE: {rmse:.3f}\nR2: {r2:.3f}'
     props = dict(boxstyle='round', facecolor='white', alpha=0.5)
 
-    # Place a text box with metrics in each subplot
+    # Place a text box with metrics in the first subplot
     ax[0].text(
         0.05,
         0.95,
@@ -144,19 +184,14 @@ def main():
         transform=ax[0].transAxes,
         verticalalignment='top',
         bbox=props)
-    ax[1].text(
-        0.05,
-        0.95,
-        metrics_text,
-        transform=ax[1].transAxes,
-        verticalalignment='top',
-        bbox=props)
 
     plt.tight_layout()
-    plt.savefig(plot_file)
-    logging.info(f'Plot saved as {plot_file}.')
 
-    logging.info('Script finished.')
+    # Save the plot to a plot_file
+    plt.savefig(plot_file)
+    logging.info(f'Plot saved to {plot_file}.')
+
+    logging.info('Script completed.')
 
 
 if __name__ == "__main__":
