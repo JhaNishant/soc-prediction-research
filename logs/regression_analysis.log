@@ -1,16 +1,16 @@
-2023-06-27 14:34:42,742 - INFO - Starting script...
+2023-07-01 20:24:17,275 - INFO - Starting script...
 [Parallel(n_jobs=-1)]: Using backend ThreadingBackend with 12 concurrent workers.
-[Parallel(n_jobs=-1)]: Done  17 tasks      | elapsed:   31.5s
+[Parallel(n_jobs=-1)]: Done  17 tasks      | elapsed:   31.4s
 [Parallel(n_jobs=-1)]: Done 100 out of 100 | elapsed:  2.3min finished
-2023-06-27 14:37:02,252 - INFO - rf_model saved to models/regression_analysis/rf_model.pkl.
+2023-07-01 20:26:40,807 - INFO - rf_model saved to models/regression_analysis/rf_model.pkl.
 [Parallel(n_jobs=12)]: Using backend ThreadingBackend with 12 concurrent workers.
 [Parallel(n_jobs=12)]: Done  17 tasks      | elapsed:    0.0s
 [Parallel(n_jobs=12)]: Done 100 out of 100 | elapsed:    0.1s finished
-2023-06-27 14:37:02,414 - INFO - Predictions saved to results/regression_analysis/predictions.csv.
-2023-06-27 14:37:02,909 - INFO - Predicted vs Actual plot saved to results/regression_analysis/predicted_vs_actual_plot.png.
-2023-06-27 14:37:02,939 - INFO - Feature importances saved to results/regression_analysis/regression_coefficients.csv.
-2023-06-27 14:37:03,226 - INFO - Regression plot saved to results/regression_analysis/regression_plot.png.
-2023-06-27 14:37:03,226 - INFO - Finished script.
+2023-07-01 20:26:40,950 - INFO - Predictions saved to results/regression_analysis/predictions.csv.
+2023-07-01 20:26:41,437 - INFO - Predicted vs Actual plot saved to results/regression_analysis/predicted_vs_actual_plot.png.
+2023-07-01 20:26:41,466 - INFO - Feature importances saved to results/regression_analysis/regression_coefficients.csv.
+2023-07-01 20:26:41,756 - INFO - Regression plot saved to results/regression_analysis/regression_plot.png.
+2023-07-01 20:26:41,756 - INFO - Finished script.
 building tree 1 of 100
 building tree 2 of 100
 building tree 3 of 100
@@ -112,6 +112,6 @@ building tree 98 of 100
 building tree 99 of 100
 building tree 100 of 100
 
-real	2m22.351s
-user	25m57.084s
-sys	0m2.489s
+real	2m26.268s
+user	26m10.271s
+sys	0m2.428s

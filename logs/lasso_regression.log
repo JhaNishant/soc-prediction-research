@@ -1,11 +1,11 @@
-2023-06-27 14:48:11,755 - INFO - Starting script...
-2023-06-27 14:48:19,349 - INFO - Model trained.
-2023-06-27 14:48:19,380 - INFO - Mean Squared Error: 36.4534853099087
-2023-06-27 14:48:19,383 - INFO - Model saved to models/lasso_regression/lr_model.pkl.
-2023-06-27 14:48:19,386 - INFO - Coefficients saved to results/lasso_regression/lasso_coefficients.csv.
-2023-06-27 14:48:20,109 - INFO - Plot saved to results/lasso_regression/lasso_regression_plot.png.
-2023-06-27 14:48:20,109 - INFO - Finished script.
+2023-07-01 20:31:40,612 - INFO - Starting script...
+2023-07-01 20:31:48,232 - INFO - Model trained.
+2023-07-01 20:31:48,267 - INFO - Mean Squared Error: 36.4534853099087
+2023-07-01 20:31:48,269 - INFO - Model saved to models/lasso_regression/lr_model.pkl.
+2023-07-01 20:31:48,273 - INFO - Coefficients saved to results/lasso_regression/lasso_coefficients.csv.
+2023-07-01 20:31:48,995 - INFO - Plot saved to results/lasso_regression/lasso_regression_plot.png.
+2023-07-01 20:31:48,995 - INFO - Finished script.
 
-real	0m12.719s
-user	0m11.434s
-sys	0m3.661s
+real	0m12.815s
+user	0m11.538s
+sys	0m3.617s

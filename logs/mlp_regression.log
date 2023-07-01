@@ -1,9 +1,9 @@
-2023-06-27 14:37:05.728106: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
-2023-06-27 14:37:05.784197: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+2023-07-01 20:22:03.869257: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2023-07-01 20:22:04.455585: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
 To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2023-06-27 14:37:06.686449: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
-2023-06-27 14:37:07,460 - INFO - Starting script...
-2023-06-27 14:37:10.637744: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1635] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 37906 MB memory:  -> device: 0, name: NVIDIA A100-SXM4-40GB, pci bus id: 0000:00:04.0, compute capability: 8.0
+2023-07-01 20:22:06.168363: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+2023-07-01 20:22:07,836 - INFO - Starting script...
+2023-07-01 20:22:12.212417: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1635] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 37883 MB memory:  -> device: 0, name: NVIDIA A100-SXM4-40GB, pci bus id: 0000:00:04.0, compute capability: 8.0
 Model: "sequential"
 _________________________________________________________________
  Layer (type)                Output Shape              Param #   
@@ -20,90 +20,94 @@ Trainable params: 13,185
 Non-trainable params: 0
 _________________________________________________________________
 Epoch 1/100
-2023-06-27 14:37:13.454873: I tensorflow/compiler/xla/stream_executor/cuda/cuda_blas.cc:637] TensorFloat-32 will be used for the matrix multiplication. This will only be logged once.
-2023-06-27 14:37:13.457690: I tensorflow/compiler/xla/service/service.cc:169] XLA service 0x7fb09d62fc30 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
-2023-06-27 14:37:13.457718: I tensorflow/compiler/xla/service/service.cc:177]   StreamExecutor device (0): NVIDIA A100-SXM4-40GB, Compute Capability 8.0
-2023-06-27 14:37:13.462590: I tensorflow/compiler/mlir/tensorflow/utils/dump_mlir_util.cc:269] disabling MLIR crash reproducer, set env var `MLIR_CRASH_REPRODUCER_DIRECTORY` to enable.
-2023-06-27 14:37:13.676480: I tensorflow/compiler/xla/stream_executor/cuda/cuda_dnn.cc:424] Loaded cuDNN version 8902
-2023-06-27 14:37:13.823876: I ./tensorflow/compiler/jit/device_compiler.h:180] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
-1258/1258 - 6s - loss: 42.4264 - val_loss: 39.9437 - 6s/epoch - 5ms/step
+2023-07-01 20:22:16.667173: I tensorflow/compiler/xla/stream_executor/cuda/cuda_blas.cc:637] TensorFloat-32 will be used for the matrix multiplication. This will only be logged once.
+2023-07-01 20:22:16.719995: I tensorflow/compiler/xla/service/service.cc:169] XLA service 0x7fe4ed52efa0 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+2023-07-01 20:22:16.720027: I tensorflow/compiler/xla/service/service.cc:177]   StreamExecutor device (0): NVIDIA A100-SXM4-40GB, Compute Capability 8.0
+2023-07-01 20:22:16.792347: I tensorflow/compiler/mlir/tensorflow/utils/dump_mlir_util.cc:269] disabling MLIR crash reproducer, set env var `MLIR_CRASH_REPRODUCER_DIRECTORY` to enable.
+2023-07-01 20:22:17.261012: I tensorflow/compiler/xla/stream_executor/cuda/cuda_dnn.cc:424] Loaded cuDNN version 8902
+2023-07-01 20:22:17.711769: I ./tensorflow/compiler/jit/device_compiler.h:180] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
+1258/1258 - 8s - loss: 42.7082 - val_loss: 40.1859 - 8s/epoch - 7ms/step
 Epoch 2/100
-1258/1258 - 3s - loss: 36.0704 - val_loss: 32.3274 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 36.1216 - val_loss: 32.6642 - 3s/epoch - 2ms/step
 Epoch 3/100
-1258/1258 - 3s - loss: 34.1737 - val_loss: 33.4951 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 34.3448 - val_loss: 34.2263 - 3s/epoch - 2ms/step
 Epoch 4/100
-1258/1258 - 3s - loss: 33.2524 - val_loss: 32.8085 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 33.3914 - val_loss: 32.9906 - 3s/epoch - 2ms/step
 Epoch 5/100
-1258/1258 - 3s - loss: 32.8668 - val_loss: 32.4612 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 32.9631 - val_loss: 32.3413 - 3s/epoch - 2ms/step
 Epoch 6/100
-1258/1258 - 3s - loss: 32.2700 - val_loss: 31.2621 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 32.4958 - val_loss: 31.4432 - 3s/epoch - 2ms/step
 Epoch 7/100
-1258/1258 - 3s - loss: 32.0889 - val_loss: 32.7575 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 32.3141 - val_loss: 32.1379 - 3s/epoch - 2ms/step
 Epoch 8/100
-1258/1258 - 3s - loss: 31.7137 - val_loss: 30.9093 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 31.8901 - val_loss: 31.0690 - 3s/epoch - 2ms/step
 Epoch 9/100
-1258/1258 - 3s - loss: 31.3001 - val_loss: 31.6373 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 31.4498 - val_loss: 31.7828 - 3s/epoch - 2ms/step
 Epoch 10/100
-1258/1258 - 3s - loss: 31.3182 - val_loss: 32.0195 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 31.4872 - val_loss: 32.2470 - 3s/epoch - 2ms/step
 Epoch 11/100
-1258/1258 - 3s - loss: 30.7567 - val_loss: 31.6202 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 31.0139 - val_loss: 31.4778 - 3s/epoch - 2ms/step
 Epoch 12/100
-1258/1258 - 3s - loss: 30.5796 - val_loss: 32.3400 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 30.7415 - val_loss: 31.6707 - 3s/epoch - 2ms/step
 Epoch 13/100
-1258/1258 - 3s - loss: 30.3194 - val_loss: 30.5258 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 30.4494 - val_loss: 30.9563 - 3s/epoch - 2ms/step
 Epoch 14/100
-1258/1258 - 3s - loss: 29.9587 - val_loss: 31.7769 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 30.2139 - val_loss: 32.6645 - 3s/epoch - 2ms/step
 Epoch 15/100
-1258/1258 - 3s - loss: 29.7859 - val_loss: 32.6696 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 29.9555 - val_loss: 33.5330 - 3s/epoch - 2ms/step
 Epoch 16/100
-1258/1258 - 3s - loss: 29.4463 - val_loss: 31.0255 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 29.6189 - val_loss: 31.4656 - 3s/epoch - 2ms/step
 Epoch 17/100
-1258/1258 - 3s - loss: 29.2627 - val_loss: 31.8301 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 29.4685 - val_loss: 32.5351 - 3s/epoch - 2ms/step
 Epoch 18/100
-1258/1258 - 3s - loss: 29.0697 - val_loss: 32.8026 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 29.3646 - val_loss: 33.2021 - 3s/epoch - 2ms/step
 Epoch 19/100
-1258/1258 - 3s - loss: 28.7008 - val_loss: 32.4171 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 28.9965 - val_loss: 33.1891 - 3s/epoch - 2ms/step
 Epoch 20/100
-1258/1258 - 3s - loss: 28.5984 - val_loss: 31.4795 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 28.9462 - val_loss: 30.9286 - 3s/epoch - 2ms/step
 Epoch 21/100
-1258/1258 - 3s - loss: 27.9531 - val_loss: 30.4050 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 28.4747 - val_loss: 30.8680 - 3s/epoch - 2ms/step
 Epoch 22/100
-1258/1258 - 3s - loss: 28.0965 - val_loss: 29.7646 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 28.3772 - val_loss: 30.3282 - 3s/epoch - 2ms/step
 Epoch 23/100
-1258/1258 - 3s - loss: 27.9488 - val_loss: 30.4205 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 28.3383 - val_loss: 30.7190 - 3s/epoch - 2ms/step
 Epoch 24/100
-1258/1258 - 3s - loss: 27.4856 - val_loss: 30.2216 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 28.0265 - val_loss: 30.3224 - 3s/epoch - 2ms/step
 Epoch 25/100
-1258/1258 - 3s - loss: 27.3411 - val_loss: 30.9309 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 27.5791 - val_loss: 31.6020 - 3s/epoch - 2ms/step
 Epoch 26/100
-1258/1258 - 3s - loss: 27.0942 - val_loss: 30.5693 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 27.3265 - val_loss: 30.7899 - 3s/epoch - 2ms/step
 Epoch 27/100
-1258/1258 - 3s - loss: 26.9426 - val_loss: 30.6053 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 27.3248 - val_loss: 30.5072 - 3s/epoch - 2ms/step
 Epoch 28/100
-1258/1258 - 3s - loss: 26.5109 - val_loss: 29.9327 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 27.0324 - val_loss: 30.5464 - 3s/epoch - 2ms/step
 Epoch 29/100
-1258/1258 - 3s - loss: 26.3733 - val_loss: 31.8332 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 26.9001 - val_loss: 31.4676 - 3s/epoch - 2ms/step
 Epoch 30/100
-1258/1258 - 3s - loss: 26.1790 - val_loss: 31.3632 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 26.5403 - val_loss: 32.7388 - 3s/epoch - 2ms/step
 Epoch 31/100
-1258/1258 - 3s - loss: 26.2176 - val_loss: 32.8446 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 26.6438 - val_loss: 32.5518 - 3s/epoch - 2ms/step
 Epoch 32/100
-1258/1258 - 3s - loss: 25.7763 - val_loss: 30.9671 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 26.4012 - val_loss: 30.9002 - 3s/epoch - 2ms/step
 Epoch 33/100
-1258/1258 - 3s - loss: 25.5064 - val_loss: 30.5614 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 26.0430 - val_loss: 31.0226 - 3s/epoch - 2ms/step
 Epoch 34/100
-1258/1258 - 3s - loss: 25.4291 - val_loss: 31.9626 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 25.9185 - val_loss: 31.9988 - 3s/epoch - 2ms/step
 Epoch 35/100
-1258/1258 - 3s - loss: 25.1921 - val_loss: 33.6749 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 25.5926 - val_loss: 33.9725 - 3s/epoch - 2ms/step
 Epoch 36/100
-1258/1258 - 3s - loss: 25.2720 - val_loss: 31.1386 - 3s/epoch - 2ms/step
+1258/1258 - 3s - loss: 25.5295 - val_loss: 31.5148 - 3s/epoch - 2ms/step
 Epoch 37/100
-1258/1258 - 3s - loss: 24.7487 - val_loss: 31.0310 - 3s/epoch - 2ms/step
-2023-06-27 14:39:00,621 - INFO - MLP model saved to models/mlp_regression/mlp_model.h5.
-  1/393 [..............................] - ETA: 30s 47/393 [==>...........................] - ETA: 0s  95/393 [======>.......................] - ETA: 0s143/393 [=========>....................] - ETA: 0s192/393 [=============>................] - ETA: 0s242/393 [=================>............] - ETA: 0s292/393 [=====================>........] - ETA: 0s340/393 [========================>.....] - ETA: 0s388/393 [============================>.] - ETA: 0s393/393 [==============================] - 0s 1ms/step
-2023-06-27 14:39:02,124 - INFO - Plot saved as results/mlp_regression/mlp_regression_plot.png.
-2023-06-27 14:39:02,124 - INFO - Script finished.
+1258/1258 - 3s - loss: 25.3932 - val_loss: 30.8948 - 3s/epoch - 2ms/step
+Epoch 38/100
+1258/1258 - 3s - loss: 25.0986 - val_loss: 34.6541 - 3s/epoch - 2ms/step
+Epoch 39/100
+1258/1258 - 3s - loss: 25.0365 - val_loss: 30.6119 - 3s/epoch - 2ms/step
+2023-07-01 20:24:12,090 - INFO - MLP model saved to models/mlp_regression/mlp_model.h5.
+  1/393 [..............................] - ETA: 35s 44/393 [==>...........................] - ETA: 0s  88/393 [=====>........................] - ETA: 0s132/393 [=========>....................] - ETA: 0s178/393 [============>.................] - ETA: 0s223/393 [================>.............] - ETA: 0s270/393 [===================>..........] - ETA: 0s314/393 [======================>.......] - ETA: 0s359/393 [==========================>...] - ETA: 0s393/393 [==============================] - 1s 1ms/step
+2023-07-01 20:24:13,746 - INFO - Plot saved as results/mlp_regression/mlp_regression_plot.png.
+2023-07-01 20:24:13,746 - INFO - Script finished.
 
-real	1m59.252s
-user	2m43.230s
-sys	0m19.360s
+real	2m13.747s
+user	2m54.227s
+sys	0m20.982s
