@@ -19,7 +19,8 @@ stages:
       size: 27383059
   data_imputation:
     cmd: "(time python src/preprocessing/data_imputation.py data/preprocessed/cleaned_data.csv.gz\
-      \ data/imputed/imputed_data.csv.gz) |& tee logs/data_imputation.log\n"
+      \ data/imputed/imputed_data.csv.gz results/data_imputation/missing_value_count.csv)\
+      \ |& tee logs/data_imputation.log\n"
     deps:
     - path: data/preprocessed/cleaned_data.csv.gz
       hash: md5
@@ -27,13 +28,17 @@ stages:
       size: 27383059
     - path: src/preprocessing/data_imputation.py
       hash: md5
-      md5: 49c7dead8ba2180e2faa10e339b87be4
-      size: 2225
+      md5: 24b377767bcd6cd3d8fe755bdfe7eac9
+      size: 2736
     outs:
     - path: data/imputed/imputed_data.csv.gz
       hash: md5
-      md5: 229e92663c6c9996be76f79ca9ac7c59
+      md5: a1b4decf5765e712de98ecb19ab02a3a
       size: 27554564
+    - path: results/data_imputation/missing_value_count.csv
+      hash: md5
+      md5: d966600c774eaa9e4abb3494b0c38ad1
+      size: 9355
   lgbm_regression:
     cmd: "(time python src/machine_learning/lgbm_regression.py data/imputed/imputed_data.csv.gz\
       \ models/lgbm_regression/lgbm_model.pkl results/lgbm_regression/lgbm_regression_plot.png\

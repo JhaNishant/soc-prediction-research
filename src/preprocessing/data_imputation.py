@@ -28,14 +28,27 @@ def main():
         type=str,
         help="Path to the output file for the dataset after imputation."
     )
+    parser.add_argument(
+        "missing_values_file",
+        type=str,
+        help="Path to the output file for the "
+             "missing values before imputation.")
 
     args = parser.parse_args()
 
     input_file = args.input_file
     output_file = args.output_file
+    missing_values_file = args.missing_values_file
 
     # Load the dataset
     df = pd.read_csv(input_file)
+
+    # Calculate missing values per column and save to CSV
+    missing_values = df.isnull().sum()
+    missing_values.to_csv(
+        missing_values_file,
+        index=True,
+        header=['Missing Values'])
 
     # Create an imputer
     imputer = IterativeImputer(
@@ -67,6 +80,9 @@ def main():
     # Save the cleaned dataset to a file
     df_imputed.to_csv(output_file, index=False)
     logging.info(f'Saved the imputed dataset to {output_file}.')
+
+    # Log out the shape of the dataset
+    logging.info(f"Shape of the dataset: {df_imputed.shape}")
 
     logging.info('Finished script.')
 

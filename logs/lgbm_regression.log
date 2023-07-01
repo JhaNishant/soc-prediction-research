@@ -1,11 +1,5 @@
-2023-06-27 14:34:32,824 - INFO - Starting script...
-2023-06-27 14:34:39,315 - INFO - Model trained.
-2023-06-27 14:34:39,392 - INFO - Mean Squared Error: 31.21222927387318
-2023-06-27 14:34:39,403 - INFO - Model saved to models/lgbm_regression/lgbm_model.pkl.
-2023-06-27 14:34:40,253 - INFO - Plot saved to results/lgbm_regression/lgbm_regression_plot.png.
-2023-06-27 14:34:40,256 - INFO - Feature importances saved to results/lgbm_regression/lgbm_importance_features.csv.
-2023-06-27 14:34:40,256 - INFO - Finished script.
-
-real	0m11.769s
-user	0m20.628s
-sys	0m3.328s
+Traceback (most recent call last):
+  File "/Users/autobotraos/soc-prediction-research/src/machine_learning/lgbm_regression.py", line 4, in <module>
+    import cudf
+ModuleNotFoundError: No module named 'cudf'
+python src/machine_learning/lgbm_regression.py      0.06s user 0.02s system 87% cpu 0.092 total

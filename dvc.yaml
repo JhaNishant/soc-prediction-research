@@ -33,13 +33,15 @@ stages:
     cmd: > 
       (time python src/preprocessing/data_imputation.py
       data/preprocessed/cleaned_data.csv.gz
-      data/imputed/imputed_data.csv.gz)
+      data/imputed/imputed_data.csv.gz
+      results/data_imputation/missing_value_count.csv)
       |& tee logs/data_imputation.log
     deps:
       - data/preprocessed/cleaned_data.csv.gz
       - src/preprocessing/data_imputation.py
     outs:
       - data/imputed/imputed_data.csv.gz
+      - results/data_imputation/missing_value_count.csv
 
   regression_analysis:
     cmd: >
